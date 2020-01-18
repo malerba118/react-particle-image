@@ -1,0 +1,32 @@
+import Vector from './Vector'
+
+class Particle {
+    radius: number;
+    friction: number;
+    vitality: number;
+    mass: number;
+    position: Vector;
+    velocity: Vector;
+    color: string;
+    
+    constructor({
+        radius = 1,
+        friction = 1,
+        vitality = 1,
+        mass = 100,
+        position = new Vector(0, 0),
+        velocity = new Vector(0, 0),
+        color = 'white'
+    } = {}) {
+        this.radius = radius
+        this.friction = friction
+        this.vitality = vitality
+        this.mass = mass
+        this.position = position
+        this.velocity = velocity
+        this.color = color
+    }
+  }
+  
+
+export default Particle
