@@ -46,6 +46,10 @@ class Vector {
     getAngle(): number {
       return Math.atan2(this.y, this.x);
     }
+
+    clone(): Vector {
+      return new Vector(this.x, this.y)
+    } 
   
     static from(angle: number, magnitude: number): Vector {
       return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle));
