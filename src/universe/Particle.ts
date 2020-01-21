@@ -11,7 +11,7 @@ class Particle {
     
     constructor({
         radius = 1,
-        friction = 1,
+        friction = 10,
         vitality = 1,
         mass = 100,
         position = new Vector(0, 0),
