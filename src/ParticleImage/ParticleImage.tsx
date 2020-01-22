@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Universe, Particle, CanvasRenderer, Simulator, ParticleForce, Vector } from '../universe'
-import { getImageData } from '../utils'
+import { getImageData, range, shuffle } from '../utils'
+import Color from 'color'
 
 function blackHole(blackHoleX: number, blackHoleY: number, strength: number = 1): ParticleForce {
     return (particle: Particle) => {
@@ -16,18 +17,40 @@ const friction: ParticleForce = (particle: Particle) => {
 
 // const hole: ParticleForce = blackHole(200, 200)
 
-const setUpImageUniverse = async (url: string, binSize: number, universe: Universe) => {
-    const imageData = await getImageData(url)
-    imageData.toGrid(binSize).forEach((cell, x, y) => {
-        cell.forEach((rgba) => {
-            let magnitude = 0.3*rgba.r + 0.59*rgba.g + 0.11*rgba.b
-            if (magnitude > 230) {
-                const subverse = universe.createSubverse()
-                subverse.addParticleForce(blackHole(x*binSize, y*binSize))
-                subverse.addParticle(new Particle({radius: magnitude / 100, color: 'white'}))
-            }
-        })
-    })
+interface SetupOptions {
+    url: string, 
+    maxParticles: number, 
+    universe: Universe,
+}
+
+const setUpImageUniverse = async ({url, maxParticles, universe}: SetupOptions) => {
+    const imageData = await getImageData(url, 2.5)
+    const imageHeight = imageData.height()
+    const imageWidth = imageData.width()
+    let numPixels = imageHeight * imageWidth
+
+    let indexArray = shuffle(range(numPixels))
+
+    let selectedPixels = 0
+
+    maxParticles = Math.min(numPixels, maxParticles)
+
+    while (selectedPixels < maxParticles && indexArray.length) {
+        const nextIndex = indexArray.pop() || 0
+        const x = nextIndex % imageWidth
+        const y = Math.floor(nextIndex / imageWidth)
+        const pixel = imageData.get(x, y)
+        let magnitude = (0.3*pixel.r + 0.59*pixel.g + 0.11*pixel.b) * pixel.a/255
+        if (magnitude > 62) {
+            const subverse = universe.createSubverse()
+            subverse.addParticleForce(blackHole(x, y))
+            const color = Color('white').alpha(magnitude/255)
+            subverse.addParticle(new Particle({radius: magnitude/255*2, color: String(color), friction: 25}))
+            selectedPixels += 1
+        }
+
+    }
+    
 }
 
 const ParticleImage = () => {
@@ -38,9 +61,9 @@ const ParticleImage = () => {
 
     useEffect(() => {
         if (canvasRef.current) {
-            const universe = new Universe({top: 0, left: 0, right: 400, bottom: 400})
+            const universe = new Universe({top: 0, left: 0, right: 800, bottom: 600})
             universe.addParticleForce(friction)
-            setUpImageUniverse('/sample.png', 5, universe)
+            setUpImageUniverse({url: '/sample.png', maxParticles: 5000, universe})
             const renderer = new CanvasRenderer(canvasRef.current)
             const simulator = new Simulator(universe, renderer)
             universeRef.current = universe
@@ -54,7 +77,7 @@ const ParticleImage = () => {
     }, [canvasRef.current])
 
     return (
-        <canvas height={400} width={400} style={{backgroundColor: '#222'}} ref={canvasRef}/>
+        <canvas height={600} width={800} style={{backgroundColor: '#222'}} ref={canvasRef}/>
     )
 }
 

@@ -13,10 +13,13 @@ export function getImageData(src: string, scale: number = 1) {
     let p = new Promise<Array2D<RGBA>>((resolve, reject) => {
       image.onload = function() {
         let canvas = document.createElement("canvas");
-        const scaledWidth = image.width * scale;
-        const scaledHeight = image.height * scale;
+        const scaledWidth = Math.floor(image.width * scale);
+        const scaledHeight = Math.floor(image.height * scale);
         canvas.width = scaledWidth;
         canvas.height = scaledHeight;
+
+        console.log(image.width, image.height)
+
   
         let context = canvas.getContext("2d");
         if (!context) {
@@ -34,10 +37,10 @@ export function getImageData(src: string, scale: number = 1) {
         while (i < imageData.length - 1) {
           let x = (i / 4) % scaledWidth;
           let y = Math.floor(i / 4 / scaledWidth);
-          if (!pixels[x]) {
-              pixels[x] = []
+          if (!pixels[y]) {
+              pixels[y] = []
           }
-          pixels[x][y] = {
+          pixels[y][x] = {
             r: imageData[i],
             g: imageData[i + 1],
             b: imageData[i + 2],
@@ -54,3 +57,22 @@ export function getImageData(src: string, scale: number = 1) {
   }
 
   export const range = (n: number) => [...Array(n).keys()]
+
+  export const shuffle = <T>(array: Array<T>) => {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }

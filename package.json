@@ -32,6 +32,8 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@types/color": "^3.0.1",
+    "color": "^3.1.2",
     "lodash.isequal": "^4.5.0"
   },
   "peerDependencies": {
