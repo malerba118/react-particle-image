@@ -67,6 +67,7 @@
     "gh-pages": "^1.2.0",
     "react": "^16.8.0",
     "react-dom": "^16.8.0",
+    "react-fps-stats": "^0.1.2",
     "react-scripts-ts": "^2.16.0",
     "rollup": "^0.62.0",
     "rollup-plugin-babel": "^3.0.7",

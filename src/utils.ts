@@ -76,3 +76,16 @@ export function getImageData(src: string, scale: number = 1) {
   
     return array;
   }
+
+  export const groupBy = <T>(array: Array<T>, grouper: (item: T) => string): {[key: string]: T[]} => {
+    return array.reduce((groups, item) => {
+      const key = grouper(item)
+      if (!groups[key]) {
+        groups[key] = []
+      }
+      groups[key].push(item)
+      return groups
+    }, {})
+  }
+
+  export const TwoPI = Math.PI * 2;

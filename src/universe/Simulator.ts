@@ -1,11 +1,12 @@
 import Universe from './Universe'
 import Renderer from './Renderer'
+import { Nullable } from './types'
 
 class Simulator {
 
     universe: Universe;
     renderer: Renderer;
-    simulating: boolean = false;
+    id: Nullable<number> = null;
 
     constructor(universe: Universe, renderer: Renderer) {
         this.universe = universe
@@ -13,23 +14,22 @@ class Simulator {
     }
 
     start = () => {
-        if (!this.simulating) {
-            this.simulating = true
+        if (!this.id) {
             this.tick()
         }
     }
 
     stop = () => {
-        this.simulating = false
+        if (this.id) {
+            window.cancelAnimationFrame(this.id)
+            this.id = null
+        }
     }
 
     private tick = () => {
-        this.renderer.clear()
-        this.universe.getParticles().forEach((particle) => {
-            this.renderer.drawParticle(particle)
-        })
+        this.renderer.drawFrame(this.universe)
         this.universe.tick()
-        window.requestAnimationFrame(this.simulating ? this.tick : () => {});
+        this.id = window.requestAnimationFrame(this.tick);
     }
     
 }

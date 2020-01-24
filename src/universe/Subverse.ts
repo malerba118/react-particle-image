@@ -3,6 +3,7 @@ import ParticleForce from './ParticleForce'
 import Vector from './Vector'
 import { Bounds, Nullable } from './types'
 
+
 class Subverse {
     private particles: Particle[] = []
     private particleForces: ParticleForce[] = []
@@ -26,12 +27,11 @@ class Subverse {
     }
 
     getParticles(): Particle[] {
-        return [
-            ...this.particles, 
-            ...this.subverses.flatMap(
+        return this.particles.concat(
+            this.subverses.flatMap(
                 subverse => subverse.getParticles()
             )
-        ]
+        )
     }
 
     addParticleForce(particleForce: ParticleForce) {
@@ -39,10 +39,10 @@ class Subverse {
     }
 
     getParticleForces(): ParticleForce[] {
-        return [
-            ...(this.parent ? this.parent.getParticleForces() : []), 
-            ...this.particleForces
-        ]
+        if (!this.parent) {
+            return this.particleForces
+        }
+        return this.parent.getParticleForces().concat(this.particleForces)
     }
 
     private enforceBounds(particle: Particle) {
@@ -62,8 +62,8 @@ class Subverse {
         }
       }
 
-    private applyForces(particle: Particle) {
-        const forces: Vector[] = this.getParticleForces().map(particleForce => particleForce(particle))
+    private applyForces(particle: Particle, particleForces: ParticleForce[]) {
+        const forces: Vector[] = particleForces.map(particleForce => particleForce(particle))
         const netForce: Vector = Vector.sum(forces)
         const acceleration: Vector = netForce.divideScalar(particle.mass)
         particle.position.add(particle.velocity)
@@ -72,8 +72,9 @@ class Subverse {
     }
 
     tick() {
+        const particleForces = this.getParticleForces()
         this.particles.forEach((particle) => {
-            this.applyForces(particle)
+            this.applyForces(particle, particleForces)
         })
         this.subverses.forEach(subverse => subverse.tick())
     }

@@ -1,11 +1,8 @@
 
-import Particle from './Particle'
+import Universe from './Universe'
 
 abstract class Renderer {
-    abstract getHeight(): number
-    abstract getWidth(): number
-    abstract clear(): void
-    abstract drawParticle(particle: Particle): void
+    abstract drawFrame(universe: Universe): void
 }
 
 export default Renderer

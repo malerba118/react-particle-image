@@ -12,18 +12,20 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "typeRoots": ["node_modules/@types", "typings/index.d.ts"]
   },
   "include": ["src"],
   "exclude": [
     "node_modules", 
+    "typings",
     "build", 
     "dist", 
     "**/*.test.ts",

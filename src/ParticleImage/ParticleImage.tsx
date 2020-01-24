@@ -24,7 +24,7 @@ interface SetupOptions {
 }
 
 const setUpImageUniverse = async ({url, maxParticles, universe}: SetupOptions) => {
-    const imageData = await getImageData(url, 2.5)
+    const imageData = await getImageData(url, 2.75)
     const imageHeight = imageData.height()
     const imageWidth = imageData.width()
     let numPixels = imageHeight * imageWidth
@@ -44,7 +44,7 @@ const setUpImageUniverse = async ({url, maxParticles, universe}: SetupOptions) =
         if (magnitude > 62) {
             const subverse = universe.createSubverse()
             subverse.addParticleForce(blackHole(x, y))
-            const color = Color('white').alpha(magnitude/255)
+            const color = Color('white')
             subverse.addParticle(new Particle({radius: magnitude/255*2, color: String(color), friction: 25}))
             selectedPixels += 1
         }
@@ -63,7 +63,7 @@ const ParticleImage = () => {
         if (canvasRef.current) {
             const universe = new Universe({top: 0, left: 0, right: 800, bottom: 600})
             universe.addParticleForce(friction)
-            setUpImageUniverse({url: '/sample.png', maxParticles: 5000, universe})
+            setUpImageUniverse({url: '/sample.png', maxParticles: 10000, universe})
             const renderer = new CanvasRenderer(canvasRef.current)
             const simulator = new Simulator(universe, renderer)
             universeRef.current = universe

@@ -11554,6 +11554,14 @@ react-focus-lock@^2.1.0:
     use-callback-ref "^1.2.1"
     use-sidecar "^1.0.1"
 
+react-fps-stats@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/react-fps-stats/-/react-fps-stats-0.1.2.tgz#18d181836f0e5a4c9a349e06bdd28cae9204fdf4"
+  integrity sha512-W6O1Zw4c1qmhUT7uAzZ136DqhiR1KKC6znKnH6ZJEcUokKMhCduzqjuRifqT5jCelJy5qgCsGQTuT5qE/060Gg==
+  dependencies:
+    prop-types "^15.6.2"
+    react "^16.5.2"
+
 react-helmet-async@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/react-helmet-async/-/react-helmet-async-1.0.4.tgz#079ef10b7fefcaee6240fefd150711e62463cc97"
@@ -11697,7 +11705,7 @@ react-textarea-autosize@^7.1.0:
     "@babel/runtime" "^7.1.2"
     prop-types "^15.6.0"
 
-react@^16.8.0, react@^16.8.3:
+react@^16.5.2, react@^16.8.0, react@^16.8.3:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
   integrity sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==

@@ -1,8 +1,10 @@
 
+import Universe from './Universe'
 import Particle from './Particle'
 import Renderer from './Renderer'
-import Vector from './Vector'
+// import Vector from './Vector'
 import { Nullable } from './types'
+import { groupBy, TwoPI } from '../utils'
 
 class CanvasRenderer extends Renderer {
 
@@ -13,40 +15,45 @@ class CanvasRenderer extends Renderer {
       this.canvas = canvas;
     }
 
-    context(): Nullable<CanvasRenderingContext2D> {
+    private context(): Nullable<CanvasRenderingContext2D> {
         return this.canvas.getContext('2d')
     }
   
-    getHeight() {
+    private getHeight() {
       return this.canvas.height;
     }
   
-    getWidth() {
+    private getWidth() {
       return this.canvas.width;
     }
   
-    clear() {
+    private clear() {
       const context = this.context()
       if (context) {
           context.clearRect(0, 0, this.getWidth(), this.getHeight());
       }
     }
   
-    drawParticle(particle: Particle) {
-        const context = this.context()
-        if (context) {
-            this.drawCircle(particle.radius, particle.position, particle.color);
-        }
+    private drawParticles(particles: Particle[], color: string) {
+      const context = this.context()
+      if (context) {
+        context.fillStyle = color;
+        context.beginPath();
+        particles.forEach((particle) => {
+          context.moveTo( particle.position.x + particle.radius, particle.position.y ); // This was the line you were looking for
+          context.arc(particle.position.x, particle.position.y, particle.radius, 0, TwoPI );
+        })
+        context.fill();
+      }
     }
 
-    private drawCircle(radius: number, position: Vector, color: string) {
-        const context = this.context()
-        if (context) {
-            context.beginPath();
-            context.arc(position.x, position.y, radius, 0, 2 * Math.PI, false);
-            context.fillStyle = color;
-            context.fill();
-        }
+    drawFrame(universe: Universe) {
+      this.clear()
+      const particles = universe.getParticles()
+      const particlesByColor = groupBy(particles, (particle) => particle.color)
+      Object.keys(particlesByColor).forEach((color) => {
+        this.drawParticles(particlesByColor[color], color)
+      })
     }
   }
 

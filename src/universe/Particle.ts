@@ -3,7 +3,6 @@ import Vector from './Vector'
 class Particle {
     radius: number;
     friction: number;
-    vitality: number;
     mass: number;
     position: Vector;
     velocity: Vector;
@@ -12,7 +11,6 @@ class Particle {
     constructor({
         radius = 1,
         friction = 10,
-        vitality = 1,
         mass = 100,
         position = new Vector(0, 0),
         velocity = new Vector(0, 0),
@@ -20,7 +18,6 @@ class Particle {
     } = {}) {
         this.radius = radius
         this.friction = friction
-        this.vitality = vitality
         this.mass = mass
         this.position = position
         this.velocity = velocity
