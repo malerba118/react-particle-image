@@ -6,6 +6,7 @@ import Renderer from './Renderer'
 import CanvasRenderer from './CanvasRenderer'
 import Subverse from './Subverse'
 import Simulator from './Simulator'
+import * as forces from './forces'
 
 export {
     Universe,
@@ -15,5 +16,6 @@ export {
     ParticleForce,
     Renderer,
     CanvasRenderer,
-    Simulator
+    Simulator,
+    forces
 }

@@ -36,8 +36,8 @@ class Array2D<T> {
 
 
     forEach(callback: (item: T, x: number, y: number) => void): void {
-        this.array.forEach((row: T[], x: number) => {
-            row.forEach((item: T, y: number) => {
+        this.array.forEach((row: T[], y: number) => {
+            row.forEach((item: T, x: number) => {
                 callback(item, x, y)
             })
         })
