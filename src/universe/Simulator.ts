@@ -15,7 +15,7 @@ class Simulator {
 
     start = () => {
         if (!this.id) {
-            this.tick()
+            this.loop()
         }
     }
 
@@ -26,10 +26,10 @@ class Simulator {
         }
     }
 
-    private tick = () => {
+    private loop = () => {
         this.renderer.drawFrame(this.universe)
         this.universe.tick()
-        this.id = window.requestAnimationFrame(this.tick);
+        this.id = window.requestAnimationFrame(this.loop);
     }
     
 }

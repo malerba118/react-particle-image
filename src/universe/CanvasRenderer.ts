@@ -2,7 +2,6 @@
 import Universe from './Universe'
 import Particle from './Particle'
 import Renderer from './Renderer'
-// import Vector from './Vector'
 import { Nullable } from './types'
 import { groupBy, TwoPI } from '../utils'
 
@@ -19,19 +18,16 @@ class CanvasRenderer extends Renderer {
         return this.canvas.getContext('2d')
     }
   
-    private getHeight() {
+    private height() {
       return this.canvas.height;
     }
   
-    private getWidth() {
+    private width() {
       return this.canvas.width;
     }
   
     private clear() {
-      const context = this.context()
-      if (context) {
-          context.clearRect(0, 0, this.getWidth(), this.getHeight());
-      }
+      this.context()?.clearRect(0, 0, this.width(), this.height());
     }
   
     private drawParticles(particles: Particle[], color: string) {
@@ -40,7 +36,7 @@ class CanvasRenderer extends Renderer {
         context.fillStyle = color;
         context.beginPath();
         particles.forEach((particle) => {
-          context.moveTo( particle.position.x + particle.radius, particle.position.y ); // This was the line you were looking for
+          context.moveTo( particle.position.x + particle.radius, particle.position.y );
           context.arc(particle.position.x, particle.position.y, particle.radius, 0, TwoPI );
         })
         context.fill();
