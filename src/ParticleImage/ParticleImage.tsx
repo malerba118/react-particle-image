@@ -18,7 +18,7 @@ interface SetupOptions {
 }
 
 interface ParticleOptions {
-    filter: (options: PixelOptions) => boolean;
+    filter?: (options: PixelOptions) => boolean;
     radius?: (options: PixelOptions) => number;
     mass?: (options: PixelOptions) => number;
     color?: (options: PixelOptions) => string;
@@ -28,6 +28,7 @@ interface ParticleOptions {
 }
 
 interface DefaultParticleOptions {
+    filter: (options: PixelOptions) => boolean;
     radius: (options: PixelOptions) => number;
     mass: (options: PixelOptions) => number;
     color: (options: PixelOptions) => string;
@@ -37,11 +38,12 @@ interface DefaultParticleOptions {
 }
 
 const defaultParticleOptions: DefaultParticleOptions = {
+    filter: () => true,
     radius: () => 1,
     mass: () => 25,
     color: () => 'white',
     friction: () => 10,
-    initialPosition: () => new Vector(0, 0),
+    initialPosition: ({x, y}) => new Vector(x, y),
     initialVelocity: () => new Vector(0, 0)
 }
 
@@ -52,16 +54,12 @@ interface ParticleImageProps {
     maxParticles?: number;
     entropy?: number;
     backgroundColor?: string;
-    particleOptions: ParticleOptions;
+    particleOptions?: ParticleOptions;
     scale?: number;
+    interactiveForce?: (x: number, y: number) => ParticleForce;
 }
 
 const setUpImageUniverse = async ({url, maxParticles, universe, particleOptions, scale}: SetupOptions) => {
-
-    particleOptions = {
-        ...defaultParticleOptions,
-        ...particleOptions
-    }
 
     const image = await getImageData(url, scale)
     const imageHeight = image.height()
@@ -78,15 +76,15 @@ const setUpImageUniverse = async ({url, maxParticles, universe, particleOptions,
         const nextIndex = indexArray.pop() || 0
         const x = nextIndex % imageWidth
         const y = Math.floor(nextIndex / imageWidth)
-        const shouldCreateParticle = particleOptions.filter({x, y, image})
-        // let magnitude = (0.3*pixel.r + 0.59*pixel.g + 0.11*pixel.b) * pixel.a/255
-        // if (magnitude > 62) {
-        //     const subverse = universe.createSubverse()
-        //     subverse.addParticleForce(forces.blackHole(x, y))
-        //     const color = Color('white')
-        //     subverse.addParticle(new Particle({radius: magnitude/255*2, color: String(color), friction: 25}))
-        //     selectedPixels += 1
-        // }
+
+        let shouldCreateParticle: boolean;
+        if (particleOptions.filter) {
+            shouldCreateParticle = particleOptions.filter({x, y, image})
+        }
+        else {
+            shouldCreateParticle = defaultParticleOptions.filter({x, y, image})
+        }
+
         if (shouldCreateParticle) {
             const subverse = universe.createSubverse()
             subverse.addParticleForce(forces.blackHole(x, y))
@@ -147,14 +145,15 @@ const setUpImageUniverse = async ({url, maxParticles, universe, particleOptions,
     
 }
 
-const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, scale = 1, maxParticles = 5000, entropy = 10, backgroundColor = '#222', particleOptions}) => {
+const defaultInteractiveForce =  (x: number, y: number) => forces.whiteHole(x, y, 3)
+
+const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, scale = 1, maxParticles = 5000, entropy = 10, backgroundColor = '#222', particleOptions = defaultParticleOptions, interactiveForce = defaultInteractiveForce}) => {
 
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const universeRef = useRef<Universe>()
     const simulatorRef = useRef<Simulator>()
     const mouseParticleForce = useRef<ParticleForce>()
     const interactionTimeoutId = useRef<number>()
-
 
     useEffect(() => {
         if (canvasRef.current) {
@@ -166,12 +165,9 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
             const simulator = new Simulator(universe, renderer)
             universeRef.current = universe
             simulatorRef.current = simulator
-
             simulator.start()
-
             return () => simulator.stop()
         }
-        return () => {}
     }, [canvasRef.current])
 
     return (
@@ -183,7 +179,7 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
                         window.clearTimeout(interactionTimeoutId.current)
                         universeRef.current.removeParticleForce(mouseParticleForce.current)
                     }
-                    const nextForce = forces.whiteHole(position.x, position.y, 3)
+                    const nextForce = interactiveForce(position.x, position.y)
                     mouseParticleForce.current = nextForce
                     universeRef.current.addParticleForce(mouseParticleForce.current)
                     interactionTimeoutId.current = window.setTimeout(() => {
