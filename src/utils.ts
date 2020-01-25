@@ -1,4 +1,5 @@
 import { Array2D } from './math'
+import React from 'react'
 
 export type RGBA = {
     r: number
@@ -17,9 +18,6 @@ export function getImageData(src: string, scale: number = 1) {
         const scaledHeight = Math.floor(image.height * scale);
         canvas.width = scaledWidth;
         canvas.height = scaledHeight;
-
-        console.log(image.width, image.height)
-
   
         let context = canvas.getContext("2d");
         if (!context) {
@@ -89,3 +87,12 @@ export function getImageData(src: string, scale: number = 1) {
   }
 
   export const TwoPI = Math.PI * 2;
+
+  export const getMousePosition = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    const canvas = event.target as HTMLCanvasElement;
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: (event.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
+        y: (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
+    };
+}

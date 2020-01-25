@@ -1,10 +1,14 @@
 import Subverse from './Subverse'
 import { Bounds } from './types'
 
+interface UniverseOptions {
+    bounds?: Bounds
+}
+
 class Universe extends Subverse {
     
-    constructor(bounds: Bounds) {
-        super(null, bounds)
+    constructor(options: UniverseOptions = {}) {
+        super(null, options)
     }
     
 }
