@@ -50,6 +50,14 @@ class Vector {
     clone(): Vector {
       return new Vector(this.x, this.y)
     } 
+
+    toUnit(): Vector {
+      const magnitude = this.getMagnitude() 
+      if (magnitude) {
+        return this.clone().divideScalar(magnitude)
+      }
+      return this.clone()
+    } 
   
     static from(angle: number, magnitude: number): Vector {
       return new Vector(magnitude * Math.cos(angle), magnitude * Math.sin(angle));

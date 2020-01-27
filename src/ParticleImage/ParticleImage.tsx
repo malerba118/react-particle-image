@@ -25,7 +25,7 @@ interface ParticleOptions {
     mass?: (options: PixelOptions) => number;
     color?: (options: PixelOptions) => string;
     friction?: (options: PixelOptions) => number;
-    initialPosition?: (options: PixelOptions) => Vector;
+    initialPosition?: (options: PixelOptions & {finalPosition: Vector}) => Vector;
     initialVelocity?: (options: PixelOptions) => Vector;
 }
 
@@ -35,7 +35,7 @@ interface DefaultParticleOptions {
     mass: (options: PixelOptions) => number;
     color: (options: PixelOptions) => string;
     friction: (options: PixelOptions) => number;
-    initialPosition: (options: PixelOptions) => Vector;
+    initialPosition: (options: PixelOptions & {finalPosition: Vector}) => Vector;
     initialVelocity: (options: PixelOptions) => Vector;
 }
 
@@ -45,7 +45,7 @@ const defaultParticleOptions: DefaultParticleOptions = {
     mass: () => 25,
     color: () => 'white',
     friction: () => 10,
-    initialPosition: ({x, y}) => new Vector(x, y),
+    initialPosition: ({finalPosition}) => finalPosition,
     initialVelocity: () => new Vector(0, 0)
 }
 
@@ -53,11 +53,11 @@ interface ParticleImageProps {
     src: string
     height?: number;
     width?: number;
+    scale?: number;
     maxParticles?: number;
     entropy?: number;
     backgroundColor?: string;
     particleOptions?: ParticleOptions;
-    scale?: number;
     interactiveForce?: (x: number, y: number) => ParticleForce;
 }
 
@@ -126,10 +126,10 @@ const setUpImageUniverse = async ({url, maxParticles, universe, particleOptions,
 
             let position: Vector;
             if (particleOptions.initialPosition) {
-                position = particleOptions.initialPosition({x, y, image})
+                position = particleOptions.initialPosition({x, y, image, finalPosition: pixelManager.getPixelPosition()})
             }
             else {
-                position = defaultParticleOptions.initialPosition({x, y, image})
+                position = defaultParticleOptions.initialPosition({x, y, image, finalPosition: pixelManager.getPixelPosition()})
             }
 
             let velocity: Vector;

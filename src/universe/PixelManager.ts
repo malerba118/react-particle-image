@@ -1,6 +1,7 @@
 import * as forces from "./forces";
 import ParticleForce from "./ParticleForce";
 import Particle from "./Particle";
+import Vector from "./Vector";
 
 interface PixelHoleOptions {
     pixelX: number; 
@@ -45,9 +46,14 @@ class PixelManager {
     }
 
     getParticleForce = (): ParticleForce => (particle: Particle) => {
+        const pixelPosition = this.getPixelPosition()
+        return forces.blackHole(pixelPosition.x, pixelPosition.y)(particle)
+    }
+
+    getPixelPosition = (): Vector => {
         const x = this.pixelX * this.scale + (this.canvasWidth / 2) - (this.imageWidth * this.scale / 2);
         const y = this.pixelY * this.scale + (this.canvasHeight / 2) - (this.imageHeight * this.scale / 2);
-        return forces.blackHole(x, y)(particle)
+        return new Vector(x, y)
     }
 }
 

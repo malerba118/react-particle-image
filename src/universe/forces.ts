@@ -25,8 +25,11 @@ function entropy(n: number): ParticleForce {
 }
 
 const friction: ParticleForce = (particle: Particle) => {
-    const friction = Math.max(particle.friction, 0)
-    return particle.velocity.clone().multiplyScalar(-friction)
+    const friction = Math.min(Math.max(particle.friction, 0), 1)
+    if (particle.velocity.getMagnitude() === 0) {
+        return new Vector(0, 0)
+    }
+    return particle.velocity.clone().multiplyScalar(-(friction * particle.mass))
 };
 
 export {

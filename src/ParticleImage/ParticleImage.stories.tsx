@@ -18,7 +18,7 @@ const particleOptions = {
         return pixel.b > 50
     },
     color: () => '#61D9FB',
-    friction: () => 4
+    friction: () => .15
 }
 
 export const Simple = () => {
@@ -30,7 +30,7 @@ export const Simple = () => {
     return (
         <>
             <FPSStats />
-            <ParticleImage src={'/react-logo.png'} height={height} width={width} particleOptions={particleOptions} scale={scale} interactiveForce={(x: number, y: number) => forces.whiteHole(x, y, 3)}/>
+            <ParticleImage src={'/react-logo.png'} maxParticles={5000} height={height} width={width} particleOptions={particleOptions} scale={scale} interactiveForce={(x: number, y: number) => forces.whiteHole(x, y, 3)}/>
         </>
     );
 };
