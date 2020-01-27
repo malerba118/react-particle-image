@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useRef } from 'react';
-import { Universe, Particle, CanvasRenderer, Simulator, ParticleForce, Vector, forces } from '../universe'
+import { Universe, Particle, CanvasRenderer, Simulator, ParticleForce, Vector, forces, PixelManager } from '../universe'
 import { getImageData, range, shuffle, getMousePosition, RGBA } from '../utils'
 import { Array2D } from '../math'
 
@@ -15,6 +15,8 @@ interface SetupOptions {
     universe: Universe;
     particleOptions: ParticleOptions;
     scale: number;
+    canvasWidth: number;
+    canvasHeight: number;
 }
 
 interface ParticleOptions {
@@ -59,17 +61,15 @@ interface ParticleImageProps {
     interactiveForce?: (x: number, y: number) => ParticleForce;
 }
 
-const setUpImageUniverse = async ({url, maxParticles, universe, particleOptions, scale}: SetupOptions) => {
+const setUpImageUniverse = async ({url, maxParticles, universe, particleOptions, scale, canvasWidth, canvasHeight}: SetupOptions) => {
 
     const image = await getImageData(url, scale)
     const imageHeight = image.height()
     const imageWidth = image.width()
     let numPixels = imageHeight * imageWidth
-
     let indexArray = shuffle(range(numPixels))
-
     let selectedPixels = 0
-
+    let pixelManagers: PixelManager[] = []
     maxParticles = Math.min(numPixels, maxParticles)
 
     while (selectedPixels < maxParticles && indexArray.length) {
@@ -87,7 +87,10 @@ const setUpImageUniverse = async ({url, maxParticles, universe, particleOptions,
 
         if (shouldCreateParticle) {
             const subverse = universe.createSubverse()
-            subverse.addParticleForce(forces.blackHole(x, y))
+
+            const pixelManager = new PixelManager({pixelX: x, pixelY: y, scale, imageHeight: image.height(), imageWidth: image.width(), canvasHeight, canvasWidth})
+            pixelManagers.push(pixelManager)
+            subverse.addParticleForce(pixelManager.getParticleForce())
 
             let color: string;
             if (particleOptions.color) {
@@ -142,6 +145,8 @@ const setUpImageUniverse = async ({url, maxParticles, universe, particleOptions,
         }
 
     }
+
+    return pixelManagers
     
 }
 
@@ -153,6 +158,7 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
     const universeRef = useRef<Universe>()
     const simulatorRef = useRef<Simulator>()
     const mouseParticleForce = useRef<ParticleForce>()
+    const pixelManagersRef = useRef<PixelManager[]>([])
     const interactionTimeoutId = useRef<number>()
 
     useEffect(() => {
@@ -160,7 +166,10 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
             const universe = new Universe()
             universe.addParticleForce(forces.friction)
             universe.addParticleForce(forces.entropy(entropy))
-            setUpImageUniverse({url: src, maxParticles, universe, particleOptions, scale})
+            setUpImageUniverse({url: src, maxParticles, universe, particleOptions, scale, canvasWidth: width, canvasHeight: height})
+                .then((pixelManagers) => {
+                    pixelManagersRef.current = pixelManagers
+                })
             const renderer = new CanvasRenderer(canvasRef.current)
             const simulator = new Simulator(universe, renderer)
             universeRef.current = universe
@@ -169,6 +178,25 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
             return () => simulator.stop()
         }
     }, [canvasRef.current])
+
+
+    useEffect(() => {
+        pixelManagersRef.current.forEach((pixelManager) => {
+            pixelManager.setScale(scale)
+        })
+    }, [scale])
+
+    useEffect(() => {
+        pixelManagersRef.current.forEach((pixelManager) => {
+            pixelManager.setCanvasWidth(width)
+        })
+    }, [width])
+
+    useEffect(() => {
+        pixelManagersRef.current.forEach((pixelManager) => {
+            pixelManager.setCanvasHeight(height)
+        })
+    }, [height])
 
     return (
         <canvas 

@@ -6,6 +6,7 @@ import Renderer from './Renderer'
 import CanvasRenderer from './CanvasRenderer'
 import Subverse from './Subverse'
 import Simulator from './Simulator'
+import PixelManager from './PixelManager'
 import * as forces from './forces'
 
 export {
@@ -17,5 +18,6 @@ export {
     Renderer,
     CanvasRenderer,
     Simulator,
+    PixelManager,
     forces
 }
