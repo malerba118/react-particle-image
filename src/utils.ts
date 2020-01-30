@@ -8,24 +8,22 @@ export type RGBA = {
     a: number
 }
 
-export function getImageData(src: string, scale: number = 1) {
+export function getImageData(src: string) {
     var image = new Image();
     image.crossOrigin = "Anonymous";
     let p = new Promise<Array2D<RGBA>>((resolve, reject) => {
       image.onload = function() {
         let canvas = document.createElement("canvas");
-        const scaledWidth = Math.floor(image.width * scale);
-        const scaledHeight = Math.floor(image.height * scale);
-        canvas.width = scaledWidth;
-        canvas.height = scaledHeight;
+        canvas.width = image.width
+        canvas.height = image.height
   
         let context = canvas.getContext("2d");
         if (!context) {
             throw new Error('Could not get canvas context')  
         }
-        context.drawImage(image, 0, 0, image.width, image.height, 0, 0, scaledWidth, scaledHeight);
+        context.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
   
-        let imageData = context.getImageData(0, 0, scaledWidth, scaledHeight)
+        let imageData = context.getImageData(0, 0, canvas.width, canvas.height)
             .data;
     
         context.clearRect(0, 0, canvas.width, canvas.height);
@@ -33,8 +31,8 @@ export function getImageData(src: string, scale: number = 1) {
         let pixels: RGBA[][] = [];
         let i = 0;
         while (i < imageData.length - 1) {
-          let x = (i / 4) % scaledWidth;
-          let y = Math.floor(i / 4 / scaledWidth);
+          let x = (i / 4) % canvas.width;
+          let y = Math.floor(i / 4 / canvas.width);
           if (!pixels[y]) {
               pixels[y] = []
           }
@@ -59,14 +57,11 @@ export function getImageData(src: string, scale: number = 1) {
   export const shuffle = <T>(array: Array<T>) => {
     let currentIndex = array.length, temporaryValue, randomIndex;
   
-    // While there remain elements to shuffle...
     while (0 !== currentIndex) {
   
-      // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
   
-      // And swap it with the current element.
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
@@ -95,4 +90,57 @@ export function getImageData(src: string, scale: number = 1) {
         x: (event.clientX - rect.left) / (rect.right - rect.left) * canvas.width,
         y: (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
     };
+}
+
+
+export class BrowserAnimator {
+
+  callback: Function
+  delay: number
+  frame: number
+  time: number | null
+  rafId: number | null
+
+  constructor(callback: Function, fps: number = 30) {
+    this.delay = 1000 / fps                  
+    this.time = null                                 
+    this.frame = -1
+    this.callback = callback
+  }
+
+  setFps = (fps: number) => {
+    this.delay = 1000 / fps
+    this.time = null
+    this.frame = -1
+  }
+
+  start = () => {
+    if (!this.rafId) {
+        this.rafId = requestAnimationFrame(this.loop);
+    }
+  }
+
+  stop = () => {
+    if (this.rafId) {
+        cancelAnimationFrame(this.rafId);
+        this.rafId = null
+        this.time = null;
+        this.frame = -1;
+    }
+  }
+
+  private loop = (timestamp) => {
+        if (this.time === null) {
+          this.time = timestamp;   
+        }
+        var seg = Math.floor((timestamp - (this.time as number)) / this.delay); // calc frame no.
+        if (seg > this.frame) {                                // moved to next frame?
+            this.frame = seg;                                  // update
+            this.callback({                                    // callback function
+                time: timestamp,
+                frame: this.frame
+            })
+        }
+        this.rafId = requestAnimationFrame(this.loop)
+    }
 }

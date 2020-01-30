@@ -1,35 +1,38 @@
 import Universe from './Universe'
 import Renderer from './Renderer'
+import { BrowserAnimator } from '../utils'
 import { Nullable } from './types'
 
 class Simulator {
 
-    universe: Universe;
+    universe: Nullable<Universe>;
     renderer: Renderer;
+    animator: BrowserAnimator;
     id: Nullable<number> = null;
 
-    constructor(universe: Universe, renderer: Renderer) {
+    constructor(renderer: Renderer, universe: Nullable<Universe> = null) {
         this.universe = universe
         this.renderer = renderer
+        this.animator = new BrowserAnimator(this.loop, 30)
+    }
+
+    setUniverse(universe: Nullable<Universe>) {
+        this.universe = universe
     }
 
     start = () => {
-        if (!this.id) {
-            this.loop()
-        }
+        this.animator.start()
     }
 
     stop = () => {
-        if (this.id) {
-            window.cancelAnimationFrame(this.id)
-            this.id = null
-        }
+        this.animator.stop()
     }
 
     private loop = () => {
-        this.renderer.drawFrame(this.universe)
-        this.universe.tick()
-        this.id = window.requestAnimationFrame(this.loop);
+        if (this.universe) {
+            this.renderer.drawFrame(this.universe)
+            this.universe.tick()
+        }
     }
     
 }

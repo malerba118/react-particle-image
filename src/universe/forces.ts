@@ -8,11 +8,11 @@ function blackHole(blackHoleX: number, blackHoleY: number, strength: number = 1)
     };
   }
 
-function whiteHole(x: number, y: number, strength: number = 1): ParticleForce {
+function whiteHole(x: number, y: number): ParticleForce {
     return (particle: Particle) => {
       let holePosition = new Vector(x, y);
       holePosition.subtract(particle.position).multiplyScalar(-1)
-      holePosition.divideScalar((holePosition.getMagnitude()^4)/strength + .01)
+      holePosition.divideScalar((holePosition.getMagnitude()^4)/3 + .01)
       return holePosition
     };
 }

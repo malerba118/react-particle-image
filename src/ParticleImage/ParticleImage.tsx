@@ -13,7 +13,6 @@ type PixelOptions = {
 interface SetupOptions {
     url: string;
     maxParticles: number; 
-    universe: Universe;
     particleOptions: ParticleOptions;
     scale: number;
     canvasWidth: number;
@@ -54,7 +53,12 @@ interface ParticleImageProps {
     interactiveForce?: (x: number, y: number) => ParticleForce;
 }
 
-const setUpImageUniverse = async ({url, maxParticles, universe, particleOptions, scale, canvasWidth, canvasHeight}: SetupOptions) => {
+interface ImageUniverseSetupResult {
+    universe: Universe;
+    pixelManagers: PixelManager[];
+}
+
+const createImageUniverse = async ({url, maxParticles, particleOptions, scale, canvasWidth, canvasHeight}: SetupOptions): Promise<ImageUniverseSetupResult> => {
 
     const image = await getImageData(url)
     const imageHeight = image.height()
@@ -62,6 +66,7 @@ const setUpImageUniverse = async ({url, maxParticles, universe, particleOptions,
     let numPixels = imageHeight * imageWidth
     let indexArray = shuffle(range(numPixels))
     let selectedPixels = 0
+    const universe = new Universe()
     let pixelManagers: PixelManager[] = []
     maxParticles = Math.min(numPixels, maxParticles)
 
@@ -139,16 +144,15 @@ const setUpImageUniverse = async ({url, maxParticles, universe, particleOptions,
 
     }
 
-    return pixelManagers
-    
+    return { universe, pixelManagers }
 }
 
-const defaultInteractiveForce =  (x: number, y: number) => forces.whiteHole(x, y, 3)
+const defaultInteractiveForce =  (x: number, y: number) => forces.whiteHole(x, y)
 
 const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, scale = 1, maxParticles = 5000, entropy = 10, backgroundColor = '#222', particleOptions = defaultParticleOptions, interactiveForce = defaultInteractiveForce}) => {
 
     const [canvas, setCanvas] = useState<HTMLCanvasElement>()
-    const universeRef = useRef<Universe>()
+    const [universe, setUniverse] = useState<Universe>()
     const simulatorRef = useRef<Simulator>()
     const mouseParticleForce = useRef<ParticleForce>()
     const entropyForceRef = useRef<ParticleForce>()
@@ -157,18 +161,25 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
 
     useEffect(() => {
         if (canvas) {
-            const universe = new Universe()
-            universe.addParticleForce(forces.friction)
-            setUpImageUniverse({url: src, maxParticles, universe, particleOptions, scale, canvasWidth: width, canvasHeight: height})
-                .then((managers) => {
-                    setPixelManagers(managers)
-                })
             const renderer = new CanvasRenderer(canvas)
-            const simulator = new Simulator(universe, renderer)
-            universeRef.current = universe
+            const simulator = new Simulator(renderer)
             simulatorRef.current = simulator
             simulator.start()
             return () => simulator.stop()
+        }
+    }, [canvas])
+
+    useEffect(() => {
+        if (canvas) {
+            const death = universe?.die()
+            const setUp = createImageUniverse({url: src, maxParticles, particleOptions, scale, canvasWidth: width, canvasHeight: height})
+            Promise.all<ImageUniverseSetupResult, void>([setUp, death])
+                .then(([{universe, pixelManagers}]) => {
+                    setPixelManagers(pixelManagers)
+                    universe.addParticleForce(forces.friction)
+                    simulatorRef.current?.setUniverse(universe)
+                    setUniverse(universe)
+                })
         }
     }, [canvas, src])
 
@@ -204,28 +215,28 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
 
     useEffect(() => {
         const entropyForce = forces.entropy(entropy)
-        universeRef.current?.addParticleForce(entropyForce)
+        universe?.addParticleForce(entropyForce)
         entropyForceRef.current = entropyForce
         return () => {
-            universeRef.current?.removeParticleForce(entropyForce)
+            universe?.removeParticleForce(entropyForce)
         }
-    }, [entropy, canvas, src])
+    }, [entropy, canvas, universe])
 
     const handleMouseMove = useCallback((e) => {
         const position = getMousePosition(e)
-        if (universeRef.current) {
+        if (universe) {
             if (mouseParticleForce.current) {
                 window.clearTimeout(interactionTimeoutId.current)
-                universeRef.current.removeParticleForce(mouseParticleForce.current)
+                universe.removeParticleForce(mouseParticleForce.current)
             }
             const nextForce = interactiveForce(position.x, position.y)
             mouseParticleForce.current = nextForce
-            universeRef.current.addParticleForce(mouseParticleForce.current)
+            universe.addParticleForce(mouseParticleForce.current)
             interactionTimeoutId.current = window.setTimeout(() => {
-                universeRef.current?.removeParticleForce(nextForce)
+                universe.removeParticleForce(nextForce)
             }, 100)
         }
-    }, [])
+    }, [universe])
 
     return (
         <canvas 

@@ -43,7 +43,7 @@ const PORTRAIT_URL = '/sample.png'
 const particleOptionsMap = {
     [REACT_LOGO_URL]: {
         radius: () => 1,
-        mass: () => 50,
+        mass: () => 40,
         filter: ({x, y, image}) => {
             const pixel = image.get(x, y)
             return pixel.b > 50
@@ -57,7 +57,7 @@ const particleOptionsMap = {
             let magnitude = (pixel.r + pixel.g + pixel.b) / 3 / 255 * pixel.a/255
             return magnitude * 3
         },
-        mass: () => 50,
+        mass: () => 40,
         filter: ({x, y, image}) => {
             const pixel = image.get(x, y)
             let magnitude = (pixel.r + pixel.g + pixel.b) / 3 / 255 * pixel.a/255
@@ -79,7 +79,7 @@ export const Simple = () => {
     return (
         <>
             <FPSStats />
-            <ParticleImage src={src} maxParticles={8000} height={height} width={width} particleOptions={particleOptionsMap[src]} scale={scale} entropy={entropy} interactiveForce={(x: number, y: number) => forces.whiteHole(x, y, 3)}/>
+            <ParticleImage src={src} maxParticles={6000} height={height} width={width} particleOptions={particleOptionsMap[src]} scale={scale} entropy={entropy} interactiveForce={(x: number, y: number) => forces.whiteHole(x, y)}/>
         </>
     );
 };

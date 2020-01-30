@@ -37,7 +37,7 @@ class CanvasRenderer extends Renderer {
         context.beginPath();
         particles.forEach((particle) => {
           context.moveTo( particle.position.x + particle.radius, particle.position.y );
-          context.arc(particle.position.x, particle.position.y, particle.radius, 0, TwoPI );
+          context.arc(particle.position.x, particle.position.y, particle.perceivedRadius, 0, TwoPI );
         })
         context.fill();
       }
