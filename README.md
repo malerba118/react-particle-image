@@ -8,6 +8,8 @@
 
 Sneak peek
 
+[Live demo](https://malerba118.github.io/react-particle-image-demo/)
+
 ![react-particles](https://user-images.githubusercontent.com/5760059/73115995-c4a03f00-3ef4-11ea-9307-f5da1869d819.gif)
 
 
