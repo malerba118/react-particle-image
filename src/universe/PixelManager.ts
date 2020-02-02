@@ -3,7 +3,7 @@ import ParticleForce from "./ParticleForce";
 import Particle from "./Particle";
 import Vector from "./Vector";
 
-interface PixelHoleOptions {
+interface PixelManagerOptions {
     pixelX: number; 
     pixelY: number; 
     scale: number; 
@@ -23,7 +23,7 @@ class PixelManager {
     canvasWidth: number; 
     canvasHeight: number;
 
-    constructor(options: PixelHoleOptions) {
+    constructor(options: PixelManagerOptions) {
         this.pixelX = options.pixelX 
         this.pixelY = options.pixelY 
         this.scale = options.scale

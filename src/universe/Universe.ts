@@ -1,12 +1,15 @@
 import Subverse from './Subverse'
 import Particle from './Particle'
 import { Bounds } from './types'
+import timing, { TimingFunction } from './timing'
 
 interface UniverseOptions {
     bounds?: Bounds;
     frameRate?: number;
     creationDuration?: number;
     deathDuration?: number;
+    creationTimingFn?: TimingFunction;
+    deathTimingFn?: TimingFunction;
 }
 
 export enum UniverseState {
@@ -26,16 +29,25 @@ class Universe extends Subverse {
     private creationRate: number = 1
     private deathDuration: number = 2000
     private deathRate: number = 1
+    private creationTimingFn: TimingFunction
+    private deathTimingFn: TimingFunction
 
-    constructor({ bounds, frameRate = 30, creationDuration = 1000, deathDuration = 1000 }: UniverseOptions = {}) {
+
+    constructor({ bounds, frameRate = 30, creationDuration = 500, deathDuration = 500, creationTimingFn = timing.easeInQuad, deathTimingFn = timing.easeInQuad }: UniverseOptions = {}) {
         super(null, { bounds })
         this.setFrameRate(frameRate)
         this.setCreationDuration(creationDuration)
         this.setDeathDuration(deathDuration)
+        this.creationTimingFn = creationTimingFn
+        this.deathTimingFn = deathTimingFn
     }
 
-    private applyHealth(particle: Particle) {
-        particle.perceivedRadius = particle.radius * this.health
+    private applyGrowth(particle: Particle) {
+        particle.perceivedRadius = particle.radius * this.creationTimingFn(this.health)
+    }
+
+    private applyDecay(particle: Particle) {
+        particle.perceivedRadius = particle.radius * this.deathTimingFn(this.health)
     }
 
     setCreationDuration(creationDuration: number) {
@@ -65,7 +77,7 @@ class Universe extends Subverse {
         if (this.state === UniverseState.Creating) {
             this.health = Math.min(this.health + this.creationRate, 1)
             this.getParticles().forEach((particle) => {
-                this.applyHealth(particle)
+                this.applyGrowth(particle)
             })
             if (this.health === 1) {
                 this.state = UniverseState.Created 
@@ -74,7 +86,7 @@ class Universe extends Subverse {
         else if (this.state === UniverseState.Dying) {
             this.health = Math.max(this.health - this.deathRate, 0)
             this.getParticles().forEach((particle) => {
-                this.applyHealth(particle)
+                this.applyDecay(particle)
             })
             if (this.health === 0) {
                 this.state = UniverseState.Dead 

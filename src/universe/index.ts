@@ -1,4 +1,4 @@
-import Universe from './Universe'
+import Universe, { UniverseState } from './Universe'
 import Particle from './Particle'
 import Vector from './Vector'
 import ParticleForce from './ParticleForce'
@@ -7,10 +7,12 @@ import CanvasRenderer from './CanvasRenderer'
 import Subverse from './Subverse'
 import Simulator from './Simulator'
 import PixelManager from './PixelManager'
+import Array2D from './Array2D'
 import * as forces from './forces'
 
 export {
     Universe,
+    UniverseState,
     Subverse,
     Particle,
     Vector,
@@ -19,5 +21,6 @@ export {
     CanvasRenderer,
     Simulator,
     PixelManager,
+    Array2D,
     forces
 }

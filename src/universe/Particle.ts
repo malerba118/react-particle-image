@@ -17,7 +17,7 @@ class Particle {
         mass = 100,
         position = new Vector(0, 0),
         velocity = new Vector(0, 0),
-        color = 'white',
+        color = 'black',
         growthRate = .05,
         decayRate = .05
     } = {}) {

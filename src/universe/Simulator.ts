@@ -3,6 +3,10 @@ import Renderer from './Renderer'
 import { BrowserAnimator } from '../utils'
 import { Nullable } from './types'
 
+export interface SimulatorOptions {
+    frameRate?: number;
+}
+
 class Simulator {
 
     universe: Nullable<Universe>;
@@ -10,10 +14,10 @@ class Simulator {
     animator: BrowserAnimator;
     id: Nullable<number> = null;
 
-    constructor(renderer: Renderer, universe: Nullable<Universe> = null) {
+    constructor(renderer: Renderer, universe: Nullable<Universe> = null, { frameRate = 30 }: SimulatorOptions = {}) {
         this.universe = universe
         this.renderer = renderer
-        this.animator = new BrowserAnimator(this.loop, 30)
+        this.animator = new BrowserAnimator(this.loop, frameRate)
     }
 
     setUniverse(universe: Nullable<Universe>) {

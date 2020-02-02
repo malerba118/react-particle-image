@@ -1,4 +1,4 @@
-import { Array2D } from './math'
+import { Array2D, Universe, PixelManager, Vector, Particle } from './universe'
 import React from 'react'
 
 export type RGBA = {
@@ -91,7 +91,6 @@ export function getImageData(src: string) {
         y: (event.clientY - rect.top) / (rect.bottom - rect.top) * canvas.height
     };
 }
-
 
 export class BrowserAnimator {
 

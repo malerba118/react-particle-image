@@ -2,8 +2,9 @@ import Particle from './Particle'
 import ParticleForce from './ParticleForce'
 import Vector from './Vector'
 import { Bounds, Nullable } from './types'
+import flatMap from 'lodash.flatmap'
 
-interface SubverseOptions {
+export interface SubverseOptions {
     bounds?: Bounds
 }
 
@@ -39,7 +40,8 @@ class Subverse {
 
     getParticles(): Particle[] {
         return this.particles.concat(
-            this.subverses.flatMap(
+            flatMap(
+                this.subverses,
                 subverse => subverse.getParticles()
             )
         )

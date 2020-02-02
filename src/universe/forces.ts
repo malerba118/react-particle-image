@@ -12,7 +12,7 @@ function whiteHole(x: number, y: number): ParticleForce {
     return (particle: Particle) => {
       let holePosition = new Vector(x, y);
       holePosition.subtract(particle.position).multiplyScalar(-1)
-      holePosition.divideScalar((holePosition.getMagnitude()^4)/3 + .01)
+      holePosition.divideScalar((holePosition.getMagnitude()^12)/8 + .01)
       return holePosition
     };
 }
