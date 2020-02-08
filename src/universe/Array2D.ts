@@ -4,28 +4,42 @@ type SliceRange = [number, number]
 class Array2D<T> {
 
     private array: Array<Array<T>>
+    private width: number;
+    private height: number;
 
     constructor(array: Array<Array<T>>) {
         this.array = array
+        this.updateWidth()
+        this.updateHeight()
     }
 
-    width(): number {
-        return Math.min(...this.array.map(row => row.length))
+    private updateWidth(): void {
+        this.width = Math.min(...this.array.map(row => row.length))
     }
 
-    height(): number {
-        return this.array.length
+    private updateHeight(): void {
+        this.height = this.array.length
+    }
+
+    getHeight(): number {
+        return this.height
+    }
+
+    getWidth(): number {
+        return this.width
     }
 
     get(x: number, y: number): T {
         return this.array[y][x]
     }
 
-    set(x: number, y: number, value: T): T {
+    set(x: number, y: number, value: T): void {
         if (!this.array[y]) {
             this.array[y] = []
         }
-        return this.array[y][x] = value
+        this.array[y][x] = value
+        this.updateWidth()
+        this.updateHeight()
     }
 
     slice([xMin, xMax]: SliceRange, [yMin, yMax]: SliceRange): Array2D<T> {

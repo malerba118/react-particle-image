@@ -19,7 +19,7 @@ export function getImageData(src: string) {
   
         let context = canvas.getContext("2d");
         if (!context) {
-            throw new Error('Could not get canvas context')  
+            return reject(new Error('Could not get canvas context')) 
         }
         context.drawImage(image, 0, 0, image.width, image.height, 0, 0, canvas.width, canvas.height);
   

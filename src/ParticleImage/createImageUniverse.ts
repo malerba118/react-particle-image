@@ -24,8 +24,8 @@ export interface SetupOptions {
  const createImageUniverse = async ({url, maxParticles, particleOptions, scale, canvasWidth, canvasHeight, creationTimingFn, deathTimingFn, creationDuration, deathDuration}: SetupOptions): Promise<ImageUniverseSetupResult> => {
   
     const image = await getImageData(url)
-    const imageHeight = image.height()
-    const imageWidth = image.width()
+    const imageHeight = image.getHeight()
+    const imageWidth = image.getWidth()
     let numPixels = imageHeight * imageWidth
     let indexArray = shuffle(range(numPixels))
     let selectedPixels = 0
@@ -43,7 +43,7 @@ export interface SetupOptions {
         if (shouldCreateParticle) {
             const subverse = universe.createSubverse()
   
-            const pixelManager = new PixelManager({pixelX: x, pixelY: y, scale, imageHeight: image.height(), imageWidth: image.width(), canvasHeight, canvasWidth})
+            const pixelManager = new PixelManager({pixelX: x, pixelY: y, scale, imageHeight: image.getHeight(), imageWidth: image.getWidth(), canvasHeight, canvasWidth})
             pixelManagers.push(pixelManager)
             subverse.addParticleForce(pixelManager.getParticleForce())
   
