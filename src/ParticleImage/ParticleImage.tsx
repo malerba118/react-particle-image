@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef, useCallback, useState, CSSProperties, HTMLProps } from 'react';
 import { Universe, Particle, CanvasRenderer, Simulator, ParticleForce, Vector, forces, PixelManager, Array2D } from '../universe'
-import { getImageData, range, shuffle, getMousePosition, RGBA } from '../utils'
+import { getImageData, range, shuffle, getMousePosition, getTouchPosition, RGBA } from '../utils'
 import createImageUniverse, { ImageUniverseSetupResult } from './createImageUniverse'
 import throttle from 'lodash.throttle'
 
@@ -141,10 +141,27 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
         }
     }, [universe])
 
+    const handleTouchMove = useCallback((e) => {
+        const position = getTouchPosition(e)
+        if (universe) {
+            if (mouseParticleForce.current) {
+                window.clearTimeout(interactionTimeoutId.current)
+                universe.removeParticleForce(mouseParticleForce.current)
+            }
+            const nextForce = interactiveForce(position.x, position.y)
+            mouseParticleForce.current = nextForce
+            universe.addParticleForce(mouseParticleForce.current)
+            interactionTimeoutId.current = window.setTimeout(() => {
+                universe.removeParticleForce(nextForce)
+            }, 100)
+        }
+    }, [universe])
+
     return (
         <canvas
             {...otherProps}
             onMouseMove={handleMouseMove} 
+            onTouchMove={handleTouchMove} 
             height={height} 
             width={width} 
             style={{backgroundColor, ...style}} 
