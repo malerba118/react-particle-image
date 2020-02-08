@@ -1,4 +1,4 @@
-import { Array2D, Universe, PixelManager, Vector, Particle } from './universe'
+import { Array2D } from './universe'
 import React from 'react'
 
 export type RGBA = {

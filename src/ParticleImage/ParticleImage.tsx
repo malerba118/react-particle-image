@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useRef, useCallback, useState, CSSProperties, HTMLProps } from 'react';
-import { Universe, Particle, CanvasRenderer, Simulator, ParticleForce, Vector, forces, PixelManager, Array2D } from '../universe'
-import { getImageData, range, shuffle, getMousePosition, getTouchPosition, RGBA } from '../utils'
+import { Universe, CanvasRenderer, Simulator, ParticleForce, Vector, forces, PixelManager, Array2D } from '../universe'
+import { getMousePosition, getTouchPosition, RGBA } from '../utils'
 import createImageUniverse, { ImageUniverseSetupResult } from './createImageUniverse'
 import throttle from 'lodash.throttle'
+import useTransientParticleForce from './useTransientParticleForce';
 
 export type PixelOptions = {
     x: number;
@@ -52,10 +53,10 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
     const [canvas, setCanvas] = useState<HTMLCanvasElement>()
     const [universe, setUniverse] = useState<Universe>()
     const simulatorRef = useRef<Simulator>()
-    const mouseParticleForce = useRef<ParticleForce>()
     const entropyForceRef = useRef<ParticleForce>()
+    const [mouseMoveParticleForce, setMouseMoveParticleForce] = useState<ParticleForce>()
+    const [touchMoveParticleForce, setTouchMoveParticleForce] = useState<ParticleForce>()
     const [pixelManagers, setPixelManagers] = useState<PixelManager[]>([])
-    const interactionTimeoutId = useRef<number>()
 
     const mergedParticleOptions: Required<ParticleOptions> = {
         ...defaultParticleOptions,
@@ -125,37 +126,22 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
         }
     }, [entropy, canvas, universe])
 
-    const handleMouseMove = useCallback((e) => {
-        const position = getMousePosition(e)
-        if (universe) {
-            if (mouseParticleForce.current) {
-                window.clearTimeout(interactionTimeoutId.current)
-                universe.removeParticleForce(mouseParticleForce.current)
-            }
-            const nextForce = interactiveForce(position.x, position.y)
-            mouseParticleForce.current = nextForce
-            universe.addParticleForce(mouseParticleForce.current)
-            interactionTimeoutId.current = window.setTimeout(() => {
-                universe.removeParticleForce(nextForce)
-            }, 100)
-        }
-    }, [universe])
+    useTransientParticleForce({universe, particleForce: mouseMoveParticleForce})
+    useTransientParticleForce({universe, particleForce: touchMoveParticleForce})
 
-    const handleTouchMove = useCallback((e) => {
-        const position = getTouchPosition(e)
-        if (universe) {
-            if (mouseParticleForce.current) {
-                window.clearTimeout(interactionTimeoutId.current)
-                universe.removeParticleForce(mouseParticleForce.current)
-            }
-            const nextForce = interactiveForce(position.x, position.y)
-            mouseParticleForce.current = nextForce
-            universe.addParticleForce(mouseParticleForce.current)
-            interactionTimeoutId.current = window.setTimeout(() => {
-                universe.removeParticleForce(nextForce)
-            }, 100)
+    const handleMouseMove = (e) => {
+        const position = getMousePosition(e)
+        if (interactiveForce) {
+            setMouseMoveParticleForce(() => interactiveForce(position.x, position.y))
         }
-    }, [universe])
+    }
+
+    const handleTouchMove = (e) => {
+        const position = getTouchPosition(e)
+        if (interactiveForce) {
+            setTouchMoveParticleForce(() => interactiveForce(position.x, position.y))
+        }
+    }
 
     return (
         <canvas
