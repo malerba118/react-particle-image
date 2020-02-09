@@ -1,10 +1,10 @@
-import React, { FC, useEffect, useRef, useCallback, useState, CSSProperties, HTMLProps } from 'react';
-import { Universe, CanvasRenderer, Simulator, ParticleForce, Vector, forces, PixelManager, Array2D } from '../universe'
+import React, { FC, useEffect, useRef, useCallback, useState, HTMLProps } from 'react';
+import throttle from 'lodash.throttle'
+import { Universe, UniverseState, CanvasRenderer, Simulator, ParticleForce, Vector, forces, PixelManager, Array2D, timing } from '../universe'
 import { getMousePosition, getTouchPosition, RGBA } from '../utils'
 import createImageUniverse, { ImageUniverseSetupResult } from './createImageUniverse'
-import throttle from 'lodash.throttle'
 import useTransientParticleForce from './useTransientParticleForce';
-import { Dimensions } from '../types'
+import { Dimensions, ImageState } from '../types'
 
 export type PixelOptions = {
     x: number;
@@ -114,14 +114,61 @@ export interface ParticleImageProps extends HTMLProps<HTMLCanvasElement> {
     mouseMoveForce?: (x: number, y: number) => ParticleForce;
 
     /**
+     * Time in milliseconds that force resulting from mousemove event should last in universe.
+     */
+    mouseMoveForceDuration?: number;
+
+    /**
      * An interactive force to be applied to the particles during touchmove events.
      */
     touchMoveForce?: (x: number, y: number) => ParticleForce;
 
     /**
+     * Time in milliseconds that force resulting from mousemove event should last in universe.
+     */
+    touchMoveForceDuration?: number;
+
+    /**
      * An interactive force to be applied to the particles during mousedown events.
      */
     mouseDownForce?: (x: number, y: number) => ParticleForce;
+
+    /**
+     * Time in milliseconds that force resulting from mousemove event should last in universe.
+     */
+    mouseDownForceDuration?: number;
+
+    /**
+     * The duration in milliseconds that it should take for the universe to reach full health.
+     */
+    creationDuration?: number;
+
+    /**
+     * The duration in milliseconds that it should take for the universe to die.
+     */
+    deathDuration?: number;
+
+    /**
+     * A timing function to dictate how the particles in the universe grow from radius zero to their full radius.
+     * This function receives a progress argument between 0 and 1 and should return a number between 0 and 1.
+     */
+    creationTimingFn?: timing.TimingFunction;
+
+    /**
+     * A timing function to dictate how the particles in the universe shrink from their full radius to radius zero.
+     * This function receives a progress argument between 0 and 1 and should return a number between 0 and 1.
+     */
+    deathTimingFn?: timing.TimingFunction;
+
+    /**
+     * Callback invoked on universe state changes.
+     */
+    onUniverseStateChange?: (state: UniverseState, universe: Universe) => void;
+
+    /**
+     * Callback invoked on image loading state changes.
+     */
+    onImageStateChange?: (state: ImageState) => void;
 }
 
 /**
@@ -131,9 +178,9 @@ export interface ParticleImageProps extends HTMLProps<HTMLCanvasElement> {
 const defaultParticleOptions: Required<ParticleOptions> = {
     filter: () => true,
     radius: () => 1,
-    mass: () => 25,
+    mass: () => 50,
     color: () => 'white',
-    friction: () => 10,
+    friction: () => .15,
     initialPosition: ({finalPosition}) => finalPosition,
     initialVelocity: () => new Vector(0, 0)
 }
@@ -144,12 +191,21 @@ const ParticleImage: FC<ParticleImageProps> = ({
     width = 400, 
     scale = 1, 
     maxParticles = 5000, 
-    entropy = 10, 
+    entropy = 20, 
     backgroundColor = '#222', 
-    particleOptions = defaultParticleOptions, 
+    particleOptions = {}, 
     mouseMoveForce, 
     touchMoveForce, 
-    mouseDownForce, 
+    mouseDownForce,
+    mouseMoveForceDuration = 100,
+    touchMoveForceDuration = 100,
+    mouseDownForceDuration = 100,
+    creationTimingFn,
+    creationDuration,
+    deathTimingFn,
+    deathDuration,
+    onUniverseStateChange,
+    onImageStateChange,
     style={}, 
     ...otherProps
 }) => {
@@ -182,7 +238,26 @@ const ParticleImage: FC<ParticleImageProps> = ({
                 height: canvas.height
             }
             const death = universe?.die()
-            const setUp = createImageUniverse({url: src, maxParticles, particleOptions: mergedParticleOptions, scale, canvasDimensions})
+            const setUp = createImageUniverse({
+                url: src, 
+                maxParticles, 
+                particleOptions: mergedParticleOptions, 
+                scale, 
+                canvasDimensions,
+                creationTimingFn,
+                creationDuration,
+                deathTimingFn,
+                deathDuration,
+                onUniverseStateChange
+            })
+            onImageStateChange?.(ImageState.Loading)
+            setUp
+                .then(() => {
+                    onImageStateChange?.(ImageState.Loaded)
+                })
+                .catch(() => {
+                    onImageStateChange?.(ImageState.Error)
+                })
             Promise.all<ImageUniverseSetupResult, void>([setUp, death])
                 .then(([{universe, pixelManagers}]) => {
                     setPixelManagers(pixelManagers)
@@ -190,8 +265,15 @@ const ParticleImage: FC<ParticleImageProps> = ({
                     simulatorRef.current?.setUniverse(universe)
                     setUniverse(universe)
                 })
+                .catch(() => {
+                    // Eat it here, let the consumer handle it via onImageStateChange
+                })
         }
     }, [canvas, src])
+
+    useEffect(() => {
+        universe?.setOnStateChange(onUniverseStateChange)
+    }, [universe, onUniverseStateChange])
 
     const updateScale = useCallback(throttle((scale: number) => {
         pixelManagers.forEach((pixelManager) => {
@@ -213,15 +295,15 @@ const ParticleImage: FC<ParticleImageProps> = ({
 
     useEffect(() => {
         updateScale(scale)
-    }, [scale, pixelManagers])
+    }, [scale, updateScale])
 
     useEffect(() => {
         updateWidth(width)
-    }, [width, pixelManagers])
+    }, [width, updateWidth])
 
     useEffect(() => {
         updateHeight(height)
-    }, [height, pixelManagers])
+    }, [height, updateHeight])
 
     useEffect(() => {
         const entropyForce = forces.entropy(entropy)
@@ -232,29 +314,32 @@ const ParticleImage: FC<ParticleImageProps> = ({
         }
     }, [entropy, canvas, universe])
 
-    const [mouseMoveParticleForce, setMouseMoveParticleForce] = useTransientParticleForce({universe})
-    const [touchMoveParticleForce, setTouchMoveParticleForce] = useTransientParticleForce({universe})
-    const [mouseDownParticleForce, setMouseDownParticleForce] = useTransientParticleForce({universe})
+    const [mouseMoveParticleForce, setMouseMoveParticleForce] = useTransientParticleForce({universe, duration: mouseMoveForceDuration})
+    const [touchMoveParticleForce, setTouchMoveParticleForce] = useTransientParticleForce({universe, duration: touchMoveForceDuration})
+    const [mouseDownParticleForce, setMouseDownParticleForce] = useTransientParticleForce({universe, duration: mouseDownForceDuration})
 
     const handleMouseMove = (e) => {
-        const position = getMousePosition(e)
         if (mouseMoveForce) {
+            const position = getMousePosition(e)
             setMouseMoveParticleForce(() => mouseMoveForce(position.x, position.y))
         }
+        otherProps.onMouseMove?.(e)
     }
 
     const handleTouchMove = (e) => {
-        const position = getTouchPosition(e)
         if (touchMoveForce) {
+            const position = getTouchPosition(e)
             setTouchMoveParticleForce(() => touchMoveForce(position.x, position.y))
         }
+        otherProps.onTouchMove?.(e)
     }
 
     const handleMouseDown = (e) => {
-        const position = getMousePosition(e)
         if (mouseDownForce) {
+            const position = getMousePosition(e)
             setMouseDownParticleForce(() => mouseDownForce(position.x, position.y))
         }
+        otherProps.onMouseDown?.(e)
     }
 
     return (

@@ -1,5 +1,5 @@
-import ParticleImage, { ParticleImageProps, PixelOptions, ParticleOptions }  from './ParticleImage';
-export { RGBA } from './utils'
+import ParticleImage, { ParticleImageProps, PixelOptions, ParticleOptions, useTransientParticleForce }  from './ParticleImage';
+export { BrowserAnimator, RGBA, getMousePosition, getTouchPosition } from './utils'
 export * from './universe';
-export { ParticleImageProps, PixelOptions, ParticleOptions } 
+export { ParticleImageProps, PixelOptions, ParticleOptions, useTransientParticleForce } 
 export default ParticleImage;

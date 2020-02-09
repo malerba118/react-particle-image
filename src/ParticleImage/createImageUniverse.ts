@@ -1,7 +1,7 @@
 import { ParticleOptions } from './ParticleImage'
 import { TimingFunction } from '../universe/timing'
 import { getImageData, shuffle, range } from '../utils'
-import { Universe, PixelManager, Vector, Particle } from '../universe'
+import { Universe, UniverseState, PixelManager, Vector, Particle } from '../universe'
 import { Dimensions } from '../types'
 
 export interface ImageUniverseSetupResult {
@@ -19,9 +19,10 @@ export interface SetupOptions {
     deathDuration?: number;
     creationTimingFn?: TimingFunction;
     deathTimingFn?: TimingFunction;
+    onUniverseStateChange?: (state: UniverseState, universe: Universe) => void
   }
   
- const createImageUniverse = async ({url, maxParticles, particleOptions, scale, canvasDimensions, creationTimingFn, deathTimingFn, creationDuration, deathDuration}: SetupOptions): Promise<ImageUniverseSetupResult> => {
+ const createImageUniverse = async ({url, maxParticles, particleOptions, scale, canvasDimensions, creationTimingFn, deathTimingFn, creationDuration, deathDuration, onUniverseStateChange}: SetupOptions): Promise<ImageUniverseSetupResult> => {
   
     const image = await getImageData(url)
     const imageHeight = image.getHeight()
@@ -29,7 +30,13 @@ export interface SetupOptions {
     let numPixels = imageHeight * imageWidth
     let indexArray = shuffle(range(numPixels))
     let selectedPixels = 0
-    const universe = new Universe({ creationTimingFn, deathTimingFn, creationDuration, deathDuration })
+    const universe = new Universe({ 
+      creationTimingFn, 
+      deathTimingFn, 
+      creationDuration, 
+      deathDuration, 
+      onStateChange: onUniverseStateChange
+    })
     let pixelManagers: PixelManager[] = []
     maxParticles = Math.min(numPixels, maxParticles)
   

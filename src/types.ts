@@ -12,3 +12,9 @@ export type Dimensions = {
     width: number,
     height: number
 }
+
+export enum ImageState {
+    Loading = 'Loading',
+    Loaded = 'Loaded',
+    Error = 'Error'
+}
