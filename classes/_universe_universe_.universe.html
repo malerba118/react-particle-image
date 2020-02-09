@@ -103,6 +103,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_universe_universe_.universe.html#deathtimingfn" class="tsd-kind-icon">death<wbr>Timing<wbr>Fn</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_universe_universe_.universe.html#framerate" class="tsd-kind-icon">frame<wbr>Rate</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_universe_universe_.universe.html#health" class="tsd-kind-icon">health</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_universe_universe_.universe.html#onstatechange" class="tsd-kind-icon">on<wbr>State<wbr>Change</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_universe_universe_.universe.html#resolvedeath" class="tsd-kind-icon">resolve<wbr>Death</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_universe_universe_.universe.html#state" class="tsd-kind-icon">state</a></li>
 							</ul>
@@ -124,6 +125,8 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_universe_universe_.universe.html#setcreationduration" class="tsd-kind-icon">set<wbr>Creation<wbr>Duration</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_universe_universe_.universe.html#setdeathduration" class="tsd-kind-icon">set<wbr>Death<wbr>Duration</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_universe_universe_.universe.html#setframerate" class="tsd-kind-icon">set<wbr>Frame<wbr>Rate</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_universe_universe_.universe.html#setonstatechange" class="tsd-kind-icon">set<wbr>OnState<wbr>Change</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="_universe_universe_.universe.html#setstate" class="tsd-kind-icon">set<wbr>State</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="_universe_universe_.universe.html#tick" class="tsd-kind-icon">tick</a></li>
 							</ul>
 						</section>
@@ -136,20 +139,20 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Universe<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>bounds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>bottom<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>left<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>right<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>top<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>creationDuration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>creationTimingFn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>deathDuration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>deathTimingFn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>frameRate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_universe_universe_.universe.html" class="tsd-signature-type">Universe</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Universe<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>bounds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>bottom<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>left<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>right<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>top<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>creationDuration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>creationTimingFn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>deathDuration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>deathTimingFn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>frameRate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>onStateChange<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../enums/_universe_universe_.universestate.html" class="tsd-signature-type">UniverseState</a>, universe<span class="tsd-signature-symbol">: </span><a href="_universe_universe_.universe.html" class="tsd-signature-type">Universe</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_universe_universe_.universe.html" class="tsd-signature-type">Universe</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_universe_subverse_.subverse.html">Subverse</a>.<a href="_universe_subverse_.subverse.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L33">src/universe/Universe.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L35">src/universe/Universe.ts:35</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> __namedParameters: <span class="tsd-signature-symbol">{ </span>bounds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>bottom<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>left<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>right<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>top<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>creationDuration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>creationTimingFn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>deathDuration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>deathTimingFn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>frameRate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {}</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> __namedParameters: <span class="tsd-signature-symbol">{ </span>bounds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>bottom<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>left<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>right<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>top<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">; </span>creationDuration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>creationTimingFn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>deathDuration<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>deathTimingFn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>t<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>frameRate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>onStateChange<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../enums/_universe_universe_.universestate.html" class="tsd-signature-type">UniverseState</a>, universe<span class="tsd-signature-symbol">: </span><a href="_universe_universe_.universe.html" class="tsd-signature-type">Universe</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = {}</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter">
 											<h5>bounds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{ </span>bottom<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>left<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>right<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>top<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h5>
@@ -205,6 +208,9 @@
 										<li class="tsd-parameter">
 											<h5>frame<wbr>Rate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
 										</li>
+										<li class="tsd-parameter">
+											<h5>on<wbr>State<wbr>Change<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../enums/_universe_universe_.universestate.html" class="tsd-signature-type">UniverseState</a>, universe<span class="tsd-signature-symbol">: </span><a href="_universe_universe_.universe.html" class="tsd-signature-type">Universe</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></h5>
+										</li>
 									</ul>
 								</li>
 							</ul>
@@ -218,10 +224,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="creationduration" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> creation<wbr>Duration</h3>
-					<div class="tsd-signature tsd-kind-icon">creation<wbr>Duration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 2000</span></div>
+					<div class="tsd-signature tsd-kind-icon">creation<wbr>Duration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L28">src/universe/Universe.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L29">src/universe/Universe.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -231,7 +237,7 @@
 					<div class="tsd-signature tsd-kind-icon">creation<wbr>Rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L29">src/universe/Universe.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L30">src/universe/Universe.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -241,17 +247,17 @@
 					<div class="tsd-signature tsd-kind-icon">creation<wbr>Timing<wbr>Fn<span class="tsd-signature-symbol">:</span> <a href="../modules/_universe_timing_.html#timingfunction" class="tsd-signature-type">TimingFunction</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L32">src/universe/Universe.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L33">src/universe/Universe.ts:33</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="deathduration" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> death<wbr>Duration</h3>
-					<div class="tsd-signature tsd-kind-icon">death<wbr>Duration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 2000</span></div>
+					<div class="tsd-signature tsd-kind-icon">death<wbr>Duration<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L30">src/universe/Universe.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L31">src/universe/Universe.ts:31</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -261,7 +267,7 @@
 					<div class="tsd-signature tsd-kind-icon">death<wbr>Rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L31">src/universe/Universe.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L32">src/universe/Universe.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -271,17 +277,17 @@
 					<div class="tsd-signature tsd-kind-icon">death<wbr>Timing<wbr>Fn<span class="tsd-signature-symbol">:</span> <a href="../modules/_universe_timing_.html#timingfunction" class="tsd-signature-type">TimingFunction</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L33">src/universe/Universe.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L34">src/universe/Universe.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="framerate" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> frame<wbr>Rate</h3>
-					<div class="tsd-signature tsd-kind-icon">frame<wbr>Rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 30</span></div>
+					<div class="tsd-signature tsd-kind-icon">frame<wbr>Rate<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L27">src/universe/Universe.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L28">src/universe/Universe.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -291,7 +297,17 @@
 					<div class="tsd-signature tsd-kind-icon">health<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L26">src/universe/Universe.ts:26</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L27">src/universe/Universe.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="onstatechange" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>State<wbr>Change</h3>
+					<div class="tsd-signature tsd-kind-icon">on<wbr>State<wbr>Change<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../enums/_universe_universe_.universestate.html" class="tsd-signature-type">UniverseState</a>, universe<span class="tsd-signature-symbol">: </span><a href="_universe_universe_.universe.html" class="tsd-signature-type">Universe</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L35">src/universe/Universe.ts:35</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -301,7 +317,7 @@
 					<div class="tsd-signature tsd-kind-icon">resolve<wbr>Death<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L25">src/universe/Universe.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L26">src/universe/Universe.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -329,10 +345,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="state" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> state</h3>
-					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <a href="../enums/_universe_universe_.universestate.html" class="tsd-signature-type">UniverseState</a><span class="tsd-signature-symbol"> = UniverseState.Creating</span></div>
+					<div class="tsd-signature tsd-kind-icon">state<span class="tsd-signature-symbol">:</span> <a href="../enums/_universe_universe_.universestate.html" class="tsd-signature-type">UniverseState</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L24">src/universe/Universe.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L25">src/universe/Universe.ts:25</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -350,7 +366,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_universe_subverse_.subverse.html">Subverse</a>.<a href="_universe_subverse_.subverse.html#addparticle">addParticle</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Subverse.ts#L33">src/universe/Subverse.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Subverse.ts#L33">src/universe/Subverse.ts:33</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -374,7 +390,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_universe_subverse_.subverse.html">Subverse</a>.<a href="_universe_subverse_.subverse.html#addparticleforce">addParticleForce</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Subverse.ts#L50">src/universe/Subverse.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Subverse.ts#L50">src/universe/Subverse.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -397,7 +413,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L49">src/universe/Universe.ts:49</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L57">src/universe/Universe.ts:57</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -420,7 +436,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L45">src/universe/Universe.ts:45</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L53">src/universe/Universe.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -444,7 +460,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_universe_subverse_.subverse.html">Subverse</a>.<a href="_universe_subverse_.subverse.html#createsubverse">createSubverse</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Subverse.ts#L23">src/universe/Subverse.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Subverse.ts#L23">src/universe/Subverse.ts:23</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_universe_subverse_.subverse.html" class="tsd-signature-type">Subverse</a></h4>
@@ -461,7 +477,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L69">src/universe/Universe.ts:69</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L81">src/universe/Universe.ts:81</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -479,7 +495,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_universe_subverse_.subverse.html">Subverse</a>.<a href="_universe_subverse_.subverse.html#getparticleforces">getParticleForces</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Subverse.ts#L58">src/universe/Subverse.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Subverse.ts#L58">src/universe/Subverse.ts:58</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../modules/_universe_particleforce_.html#particleforce" class="tsd-signature-type">ParticleForce</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -497,7 +513,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_universe_subverse_.subverse.html">Subverse</a>.<a href="_universe_subverse_.subverse.html#getparticles">getParticles</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Subverse.ts#L41">src/universe/Subverse.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Subverse.ts#L41">src/universe/Subverse.ts:41</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="_universe_particle_.particle.html" class="tsd-signature-type">Particle</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -515,7 +531,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_universe_subverse_.subverse.html">Subverse</a>.<a href="_universe_subverse_.subverse.html#removeparticle">removeParticle</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Subverse.ts#L37">src/universe/Subverse.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Subverse.ts#L37">src/universe/Subverse.ts:37</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -539,7 +555,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_universe_subverse_.subverse.html">Subverse</a>.<a href="_universe_subverse_.subverse.html#removeparticleforce">removeParticleForce</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Subverse.ts#L54">src/universe/Subverse.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Subverse.ts#L54">src/universe/Subverse.ts:54</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -563,7 +579,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="_universe_subverse_.subverse.html">Subverse</a>.<a href="_universe_subverse_.subverse.html#removesubverse">removeSubverse</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Subverse.ts#L29">src/universe/Subverse.ts:29</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Subverse.ts#L29">src/universe/Subverse.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -586,7 +602,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L53">src/universe/Universe.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L61">src/universe/Universe.ts:61</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -609,7 +625,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L58">src/universe/Universe.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L66">src/universe/Universe.ts:66</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -632,13 +648,59 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L63">src/universe/Universe.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L71">src/universe/Universe.ts:71</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>frameRate: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="setonstatechange" class="tsd-anchor"></a>
+					<h3>set<wbr>OnState<wbr>Change</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>OnState<wbr>Change<span class="tsd-signature-symbol">(</span>onStateChange<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#optional" class="tsd-signature-type">Optional</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../enums/_universe_universe_.universestate.html" class="tsd-signature-type">UniverseState</a>, universe<span class="tsd-signature-symbol">: </span><a href="_universe_universe_.universe.html" class="tsd-signature-type">Universe</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L77">src/universe/Universe.ts:77</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>onStateChange: <a href="../modules/_types_.html#optional" class="tsd-signature-type">Optional</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><a href="../enums/_universe_universe_.universestate.html" class="tsd-signature-type">UniverseState</a>, universe<span class="tsd-signature-symbol">: </span><a href="_universe_universe_.universe.html" class="tsd-signature-type">Universe</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="setstate" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> set<wbr>State</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>State<span class="tsd-signature-symbol">(</span>val<span class="tsd-signature-symbol">: </span><a href="../enums/_universe_universe_.universestate.html" class="tsd-signature-type">UniverseState</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L48">src/universe/Universe.ts:48</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>val: <a href="../enums/_universe_universe_.universestate.html" class="tsd-signature-type">UniverseState</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -656,7 +718,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="_universe_subverse_.subverse.html">Subverse</a>.<a href="_universe_subverse_.subverse.html#tick">tick</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/universe/Universe.ts#L76">src/universe/Universe.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/universe/Universe.ts#L88">src/universe/Universe.ts:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -756,6 +818,9 @@
 								<a href="_universe_universe_.universe.html#health" class="tsd-kind-icon">health</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="_universe_universe_.universe.html#onstatechange" class="tsd-kind-icon">on<wbr>State<wbr>Change</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_universe_universe_.universe.html#resolvedeath" class="tsd-kind-icon">resolve<wbr>Death</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
@@ -803,6 +868,12 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_universe_universe_.universe.html#setframerate" class="tsd-kind-icon">set<wbr>Frame<wbr>Rate</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_universe_universe_.universe.html#setonstatechange" class="tsd-kind-icon">set<wbr>OnState<wbr>Change</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="_universe_universe_.universe.html#setstate" class="tsd-kind-icon">set<wbr>State</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="_universe_universe_.universe.html#tick" class="tsd-kind-icon">tick</a>
 							</li>
@@ -810,7 +881,7 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
 						<a href="../interfaces/_universe_universe_.universeoptions.html" class="tsd-kind-icon">Universe<wbr>Options</a>
 					</li>
 				</ul>

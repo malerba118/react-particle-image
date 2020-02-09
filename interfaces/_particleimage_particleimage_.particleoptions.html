@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Options to be applied to particles during their creation.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -104,9 +111,16 @@
 					<div class="tsd-signature tsd-kind-icon">color<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/_particleimage_particleimage_.html#pixeloptions" class="tsd-signature-type">PixelOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/ParticleImage/ParticleImage.tsx#L19">src/ParticleImage/ParticleImage.tsx:19</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/ParticleImage/ParticleImage.tsx#L44">src/ParticleImage/ParticleImage.tsx:44</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Given a pixel in the img, calculates the color of the corresponding particle.
+								Fewer colors will result in better performance (higher framerates).
+							This function is only executed on pixels whose filters return true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="filter" class="tsd-anchor"></a>
@@ -114,9 +128,16 @@
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/_particleimage_particleimage_.html#pixeloptions" class="tsd-signature-type">PixelOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/ParticleImage/ParticleImage.tsx#L16">src/ParticleImage/ParticleImage.tsx:16</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/ParticleImage/ParticleImage.tsx#L25">src/ParticleImage/ParticleImage.tsx:25</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Given a pixel in the img, the filter determines whether or not a particle should be created for this pixel.
+								This is run for all pixels in the image in random order until maxParticles limit is reached. If the filter
+							returns true, a particle will be created for this pixel.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="friction" class="tsd-anchor"></a>
@@ -124,9 +145,16 @@
 					<div class="tsd-signature tsd-kind-icon">friction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/_particleimage_particleimage_.html#pixeloptions" class="tsd-signature-type">PixelOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/ParticleImage/ParticleImage.tsx#L20">src/ParticleImage/ParticleImage.tsx:20</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/ParticleImage/ParticleImage.tsx#L51">src/ParticleImage/ParticleImage.tsx:51</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Given a pixel in the img, calculates the coefficient of kinetic friction of the corresponding particle.
+								This should have a value between 0 and 1.
+							This function is only executed on pixels whose filters return true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="initialposition" class="tsd-anchor"></a>
@@ -134,9 +162,15 @@
 					<div class="tsd-signature tsd-kind-icon">initial<wbr>Position<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/_particleimage_particleimage_.html#pixeloptions" class="tsd-signature-type">PixelOptions</a><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>canvasDimensions<span class="tsd-signature-symbol">: </span><a href="../modules/_types_.html#dimensions" class="tsd-signature-type">Dimensions</a><span class="tsd-signature-symbol">; </span>finalPosition<span class="tsd-signature-symbol">: </span><a href="../classes/_universe_vector_.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../classes/_universe_vector_.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/ParticleImage/ParticleImage.tsx#L21">src/ParticleImage/ParticleImage.tsx:21</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/ParticleImage/ParticleImage.tsx#L57">src/ParticleImage/ParticleImage.tsx:57</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Given a pixel in the img, calculates the initial position vector of the corresponding particle.
+							This function is only executed on pixels whose filters return true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="initialvelocity" class="tsd-anchor"></a>
@@ -144,9 +178,15 @@
 					<div class="tsd-signature tsd-kind-icon">initial<wbr>Velocity<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/_particleimage_particleimage_.html#pixeloptions" class="tsd-signature-type">PixelOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><a href="../classes/_universe_vector_.vector.html" class="tsd-signature-type">Vector</a><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/ParticleImage/ParticleImage.tsx#L22">src/ParticleImage/ParticleImage.tsx:22</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/ParticleImage/ParticleImage.tsx#L63">src/ParticleImage/ParticleImage.tsx:63</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Given a pixel in the img, calculates the initial velocity vector of the corresponding particle.
+							This function is only executed on pixels whose filters return true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="mass" class="tsd-anchor"></a>
@@ -154,9 +194,15 @@
 					<div class="tsd-signature tsd-kind-icon">mass<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/_particleimage_particleimage_.html#pixeloptions" class="tsd-signature-type">PixelOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/ParticleImage/ParticleImage.tsx#L18">src/ParticleImage/ParticleImage.tsx:18</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/ParticleImage/ParticleImage.tsx#L37">src/ParticleImage/ParticleImage.tsx:37</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Given a pixel in the img, calculates the mass of the corresponding particle.
+							This function is only executed on pixels whose filters return true.</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="radius" class="tsd-anchor"></a>
@@ -164,9 +210,15 @@
 					<div class="tsd-signature tsd-kind-icon">radius<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../modules/_particleimage_particleimage_.html#pixeloptions" class="tsd-signature-type">PixelOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/82a3f97/src/ParticleImage/ParticleImage.tsx#L17">src/ParticleImage/ParticleImage.tsx:17</a></li>
+							<li>Defined in <a href="https://github.com/malerba118/react-particle-image/blob/c3b30c8/src/ParticleImage/ParticleImage.tsx#L31">src/ParticleImage/ParticleImage.tsx:31</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Given a pixel in the img, calculates the radius of the corresponding particle.
+							This function is only executed on pixels whose filters return true.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -258,20 +310,11 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_particleimage_particleimage_.html#defaultparticleoptions" class="tsd-kind-icon">Default<wbr>Particle<wbr>Options</a>
-					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
 						<a href="../modules/_particleimage_particleimage_.html#pixeloptions" class="tsd-kind-icon">Pixel<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
 						<a href="../modules/_particleimage_particleimage_.html#particleimage" class="tsd-kind-icon">Particle<wbr>Image</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_particleimage_particleimage_.html#defaultinteractiveforce" class="tsd-kind-icon">default<wbr>Interactive<wbr>Force</a>
-					</li>
-					<li class=" tsd-kind-object-literal tsd-parent-kind-external-module tsd-is-not-exported">
-						<a href="../modules/_particleimage_particleimage_.html#defaultparticleoptions-1" class="tsd-kind-icon">default<wbr>Particle<wbr>Options</a>
 					</li>
 				</ul>
 			</nav>
