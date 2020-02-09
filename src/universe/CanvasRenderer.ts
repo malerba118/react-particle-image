@@ -2,7 +2,7 @@
 import Universe from './Universe'
 import Particle from './Particle'
 import Renderer from './Renderer'
-import { Nullable } from './types'
+import { Nullable } from '../types'
 import { groupBy, TwoPI } from '../utils'
 
 class CanvasRenderer extends Renderer {

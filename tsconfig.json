@@ -32,5 +32,18 @@
     "**/*.test.tsx",
     "**/*.stories.ts",
     "**/*.stories.tsx"
-  ]
+  ],
+  "typedocOptions": {
+    "out": "docs",
+    "includes": "src",
+    "exclude": [
+        "**/*.stories.tsx",
+        "src/ParticleImage/index.ts",
+        "src/ParticleImage/createImageUniverse.ts",
+        "src/ParticleImage/useTransientParticleForce.ts",
+        "src/universe/index.ts",
+        "src/setupTests.ts",
+        "src/utils.ts"
+    ]
+  }
 }

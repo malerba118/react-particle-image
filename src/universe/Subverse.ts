@@ -1,7 +1,7 @@
 import Particle from './Particle'
 import ParticleForce from './ParticleForce'
 import Vector from './Vector'
-import { Bounds, Nullable } from './types'
+import { Bounds, Nullable } from '../types'
 import flatMap from 'lodash.flatmap'
 
 export interface SubverseOptions {

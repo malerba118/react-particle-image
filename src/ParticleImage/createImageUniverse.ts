@@ -2,6 +2,7 @@ import { ParticleOptions } from './ParticleImage'
 import { TimingFunction } from '../universe/timing'
 import { getImageData, shuffle, range } from '../utils'
 import { Universe, PixelManager, Vector, Particle } from '../universe'
+import { Dimensions } from '../types'
 
 export interface ImageUniverseSetupResult {
     universe: Universe;
@@ -13,15 +14,14 @@ export interface SetupOptions {
     maxParticles: number; 
     particleOptions: Required<ParticleOptions>;
     scale: number;
-    canvasWidth: number;
-    canvasHeight: number;
+    canvasDimensions: Dimensions;
     creationDuration?: number;
     deathDuration?: number;
     creationTimingFn?: TimingFunction;
     deathTimingFn?: TimingFunction;
   }
   
- const createImageUniverse = async ({url, maxParticles, particleOptions, scale, canvasWidth, canvasHeight, creationTimingFn, deathTimingFn, creationDuration, deathDuration}: SetupOptions): Promise<ImageUniverseSetupResult> => {
+ const createImageUniverse = async ({url, maxParticles, particleOptions, scale, canvasDimensions, creationTimingFn, deathTimingFn, creationDuration, deathDuration}: SetupOptions): Promise<ImageUniverseSetupResult> => {
   
     const image = await getImageData(url)
     const imageHeight = image.getHeight()
@@ -43,7 +43,7 @@ export interface SetupOptions {
         if (shouldCreateParticle) {
             const subverse = universe.createSubverse()
   
-            const pixelManager = new PixelManager({pixelX: x, pixelY: y, scale, imageHeight: image.getHeight(), imageWidth: image.getWidth(), canvasHeight, canvasWidth})
+            const pixelManager = new PixelManager({pixelX: x, pixelY: y, scale, imageHeight: image.getHeight(), imageWidth: image.getWidth(), canvasWidth: canvasDimensions.width, canvasHeight: canvasDimensions.height})
             pixelManagers.push(pixelManager)
             subverse.addParticleForce(pixelManager.getParticleForce())
   
@@ -55,7 +55,7 @@ export interface SetupOptions {
 
             let mass: number = particleOptions.mass({x, y, image})
   
-            let position: Vector = particleOptions.initialPosition({x, y, image, finalPosition: pixelManager.getPixelPosition()})
+            let position: Vector = particleOptions.initialPosition({x, y, image, finalPosition: pixelManager.getPixelPosition(), canvasDimensions})
   
             let velocity: Vector = particleOptions.initialVelocity({x, y, image})
   

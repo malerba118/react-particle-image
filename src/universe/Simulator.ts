@@ -1,7 +1,7 @@
 import Universe from './Universe'
 import Renderer from './Renderer'
 import { BrowserAnimator } from '../utils'
-import { Nullable } from './types'
+import { Nullable } from '../types'
 
 export interface SimulatorOptions {
     frameRate?: number;

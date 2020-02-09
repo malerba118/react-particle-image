@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Universe, ParticleForce } from '../universe'
-import { Optional, Nullable } from '../universe/types'
+import { Optional, Nullable } from '../types'
 
 interface UseTransientParticleForceParams  {
     universe: Optional<Universe>; 
@@ -16,6 +16,13 @@ const useTransientParticleForce = ({universe, duration = 100}: UseTransientParti
     const [particleForce, setParticleForce] = useState<Nullable<ParticleForce>>(null)
 
     useEffect(() => {
+        // Reset before universe change
+        return () => {
+            setParticleForce(null)
+        }
+    }, [universe])
+
+    useEffect(() => {
         if (universe && particleForce) {
             universe.addParticleForce(particleForce)
             const timeoutId = window.setTimeout(() => {
@@ -25,7 +32,6 @@ const useTransientParticleForce = ({universe, duration = 100}: UseTransientParti
             return () => {
                 window.clearTimeout(timeoutId)
                 universe.removeParticleForce(particleForce)
-                setParticleForce(null)
             }
         }
     }, [universe, particleForce, duration])

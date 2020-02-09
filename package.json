@@ -24,10 +24,11 @@
     "lint": "tsc --noEmit && eslint 'src/**/*.{js,ts,tsx}' --quiet --fix",
     "build": "rollup -c && npm run declaration",
     "declaration": "rm -rf declaration && tsc -p tsconfig.declaration.json",
+    "generate-docs": "typedoc",
     "start": "rollup -c -w",
     "prepare": "yarn run build",
-    "predeploy": "cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build",
+    "predeploy": "npm run generate-docs",
+    "deploy": "gh-pages -d docs",
     "storybook": "start-storybook -s ./public -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -81,6 +82,9 @@
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-typescript2": "^0.17.0",
     "rollup-plugin-url": "^1.4.0",
+    "typedoc": "^0.16.9",
+    "typedoc-plugin-no-inherit": "^1.1.10",
+    "typedoc-plugin-nojekyll": "^1.0.1",
     "typescript": "^3.7.3"
   },
   "files": [

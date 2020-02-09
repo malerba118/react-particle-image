@@ -8,11 +8,11 @@ function blackHole(blackHoleX: number, blackHoleY: number, strength: number = 1)
     };
   }
 
-function whiteHole(x: number, y: number): ParticleForce {
+function disturbance(x: number, y: number, strength: number = 1): ParticleForce {
     return (particle: Particle) => {
       let holePosition = new Vector(x, y);
       holePosition.subtract(particle.position).multiplyScalar(-1)
-      holePosition.divideScalar((holePosition.getMagnitude()^12)/8 + .01)
+      holePosition.divideScalar((holePosition.getMagnitude()^12)/(strength + .001) + .01)
       return holePosition
     };
 }
@@ -34,7 +34,7 @@ const friction: ParticleForce = (particle: Particle) => {
 
 export {
     blackHole,
-    whiteHole,
+    disturbance,
     entropy,
     friction
 }

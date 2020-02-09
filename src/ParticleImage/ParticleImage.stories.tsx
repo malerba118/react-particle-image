@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ParticleImage from './ParticleImage';
 import FPSStats from "react-fps-stats";
 import { withKnobs, number, select } from "@storybook/addon-knobs";
-import { Vector, forces } from '../universe';
+import { forces } from '../universe';
 
 export default {
     title: 'ParticleImage',
@@ -79,7 +79,7 @@ export const Simple = () => {
     return (
         <>
             <FPSStats />
-            <ParticleImage src={src} maxParticles={6000} height={height} width={width} particleOptions={particleOptionsMap[src]} scale={scale} entropy={entropy} interactiveForce={(x: number, y: number) => forces.whiteHole(x, y)}/>
+            <ParticleImage src={src} maxParticles={6000} height={height} width={width} particleOptions={particleOptionsMap[src]} scale={scale} entropy={entropy} mouseMoveForce={(x: number, y: number) => forces.disturbance(x, y)}/>
         </>
     );
 };

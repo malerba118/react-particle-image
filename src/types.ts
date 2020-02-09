@@ -8,3 +8,7 @@ export type Bounds = {
     left: number
 };
 
+export type Dimensions = {
+    width: number,
+    height: number
+}

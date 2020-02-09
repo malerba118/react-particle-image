@@ -1,6 +1,6 @@
 import Subverse from './Subverse'
 import Particle from './Particle'
-import { Bounds } from './types'
+import { Bounds } from '../types'
 import timing, { TimingFunction } from './timing'
 
 interface UniverseOptions {

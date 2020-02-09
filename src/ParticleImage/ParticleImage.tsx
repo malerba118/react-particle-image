@@ -4,6 +4,7 @@ import { getMousePosition, getTouchPosition, RGBA } from '../utils'
 import createImageUniverse, { ImageUniverseSetupResult } from './createImageUniverse'
 import throttle from 'lodash.throttle'
 import useTransientParticleForce from './useTransientParticleForce';
+import { Dimensions } from '../types'
 
 export type PixelOptions = {
     x: number;
@@ -17,10 +18,14 @@ export interface ParticleOptions {
     mass?: (options: PixelOptions) => number;
     color?: (options: PixelOptions) => string;
     friction?: (options: PixelOptions) => number;
-    initialPosition?: (options: PixelOptions & {finalPosition: Vector}) => Vector;
+    initialPosition?: (options: PixelOptions & {finalPosition: Vector, canvasDimensions: Dimensions}) => Vector;
     initialVelocity?: (options: PixelOptions) => Vector;
 }
 
+/**
+ * Available props for ParticleImage.
+ * @noInheritDoc
+ */
 export interface ParticleImageProps extends HTMLProps<HTMLCanvasElement> {
     src: string
     height?: number;
@@ -31,7 +36,9 @@ export interface ParticleImageProps extends HTMLProps<HTMLCanvasElement> {
     entropy?: number;
     backgroundColor?: string;
     particleOptions?: ParticleOptions;
-    interactiveForce?: (x: number, y: number) => ParticleForce;
+    mouseMoveForce?: (x: number, y: number) => ParticleForce;
+    touchMoveForce?: (x: number, y: number) => ParticleForce;
+    mouseDownForce?: (x: number, y: number) => ParticleForce;
 }
 
 type DefaultParticleOptions = Required<ParticleOptions>
@@ -46,9 +53,9 @@ const defaultParticleOptions: DefaultParticleOptions = {
     initialVelocity: () => new Vector(0, 0)
 }
 
-const defaultInteractiveForce =  (x: number, y: number) => forces.whiteHole(x, y)
+const defaultInteractiveForce =  (x: number, y: number) => forces.disturbance(x, y)
 
-const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, scale = 1, maxParticles = 5000, entropy = 10, backgroundColor = '#222', particleOptions = defaultParticleOptions, interactiveForce = defaultInteractiveForce, style={}, ...otherProps}) => {
+const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, scale = 1, maxParticles = 5000, entropy = 10, backgroundColor = '#222', particleOptions = defaultParticleOptions, mouseMoveForce, touchMoveForce, mouseDownForce, style={}, ...otherProps}) => {
 
     const [canvas, setCanvas] = useState<HTMLCanvasElement>()
     const [universe, setUniverse] = useState<Universe>()
@@ -73,8 +80,12 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
 
     useEffect(() => {
         if (canvas) {
+            const canvasDimensions = {
+                width: canvas.width,
+                height: canvas.height
+            }
             const death = universe?.die()
-            const setUp = createImageUniverse({url: src, maxParticles, particleOptions: mergedParticleOptions, scale, canvasWidth: width, canvasHeight: height})
+            const setUp = createImageUniverse({url: src, maxParticles, particleOptions: mergedParticleOptions, scale, canvasDimensions})
             Promise.all<ImageUniverseSetupResult, void>([setUp, death])
                 .then(([{universe, pixelManagers}]) => {
                     setPixelManagers(pixelManagers)
@@ -126,18 +137,26 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
 
     const [mouseMoveParticleForce, setMouseMoveParticleForce] = useTransientParticleForce({universe})
     const [touchMoveParticleForce, setTouchMoveParticleForce] = useTransientParticleForce({universe})
+    const [mouseDownParticleForce, setMouseDownParticleForce] = useTransientParticleForce({universe})
 
     const handleMouseMove = (e) => {
         const position = getMousePosition(e)
-        if (interactiveForce) {
-            setMouseMoveParticleForce(() => interactiveForce(position.x, position.y))
+        if (mouseMoveForce) {
+            setMouseMoveParticleForce(() => mouseMoveForce(position.x, position.y))
         }
     }
 
     const handleTouchMove = (e) => {
         const position = getTouchPosition(e)
-        if (interactiveForce) {
-            setTouchMoveParticleForce(() => interactiveForce(position.x, position.y))
+        if (touchMoveForce) {
+            setTouchMoveParticleForce(() => touchMoveForce(position.x, position.y))
+        }
+    }
+
+    const handleMouseDown = (e) => {
+        const position = getMousePosition(e)
+        if (mouseDownForce) {
+            setMouseDownParticleForce(() => mouseDownForce(position.x, position.y))
         }
     }
 
@@ -146,6 +165,7 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
             {...otherProps}
             onMouseMove={handleMouseMove} 
             onTouchMove={handleTouchMove} 
+            onMouseDown={handleMouseDown}
             height={height} 
             width={width} 
             style={{backgroundColor, touchAction: 'none', ...style}} 
