@@ -36,6 +36,7 @@
   "typedocOptions": {
     "out": "docs",
     "includes": "src",
+    "stripInternal": true,
     "exclude": [
         "**/*.stories.tsx",
         "src/ParticleImage/index.ts",

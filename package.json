@@ -28,7 +28,7 @@
     "start": "rollup -c -w",
     "prepare": "yarn run build",
     "predeploy": "npm run generate-docs",
-    "deploy": "gh-pages -d docs",
+    "deploy": "gh-pages --dotfiles -d docs",
     "storybook": "start-storybook -s ./public -p 6006",
     "build-storybook": "build-storybook"
   },
