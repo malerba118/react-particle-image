@@ -54,8 +54,6 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
     const [universe, setUniverse] = useState<Universe>()
     const simulatorRef = useRef<Simulator>()
     const entropyForceRef = useRef<ParticleForce>()
-    const [mouseMoveParticleForce, setMouseMoveParticleForce] = useState<ParticleForce>()
-    const [touchMoveParticleForce, setTouchMoveParticleForce] = useState<ParticleForce>()
     const [pixelManagers, setPixelManagers] = useState<PixelManager[]>([])
 
     const mergedParticleOptions: Required<ParticleOptions> = {
@@ -126,8 +124,8 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
         }
     }, [entropy, canvas, universe])
 
-    useTransientParticleForce({universe, particleForce: mouseMoveParticleForce})
-    useTransientParticleForce({universe, particleForce: touchMoveParticleForce})
+    const [mouseMoveParticleForce, setMouseMoveParticleForce] = useTransientParticleForce({universe})
+    const [touchMoveParticleForce, setTouchMoveParticleForce] = useTransientParticleForce({universe})
 
     const handleMouseMove = (e) => {
         const position = getMousePosition(e)
@@ -150,7 +148,7 @@ const ParticleImage: FC<ParticleImageProps> = ({src, height = 400, width = 400, 
             onTouchMove={handleTouchMove} 
             height={height} 
             width={width} 
-            style={{backgroundColor, ...style}} 
+            style={{backgroundColor, touchAction: 'none', ...style}} 
             ref={(c) =>  {
                 if (c?.getContext('2d')) {
                     setCanvas(c)
