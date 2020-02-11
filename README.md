@@ -14,8 +14,8 @@ npm install --save react-particle-image
 
 ## Links
 
-- [Demo](https://malerba118.github.io/react-particle-image-demo/)
-- [Docs](https://malerba118.github.io/react-particle-image/)
+- [Demo](https://malerba118.github.io/react-particle-image-demo/) ([source](https://github.com/malerba118/react-particle-image-demo/blob/master/src/App.tsx))
+- [Docs](https://malerba118.github.io/react-particle-image/interfaces/_particleimage_particleimage_.particleimageprops.html)
 
 
 ## Simple Usage
