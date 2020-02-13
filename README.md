@@ -100,5 +100,15 @@ export default function App() {
 }
 ```
 
+## Performance Tips
+`ParticleImage` has a target frame rate of 30fps, but with thousands of particles updating positions and repainting 30 times per second, performance can be a problem.
+
+If animations are choppy try:
+- Reducing the number of distinct particle colors (particles of the same color will be batched while painting)
+- Reducing the number of particles (less than 6000 is ideal)
+- Reducing the resolution of the src image.
+
+Here's a [codesandbox of a good boy](https://codesandbox.io/s/react-particle-image-multicolor-dp8up) to show what I mean. Note the `round` function to reduce the number of colors painted on the canvas.
+
 
 MIT © [malerba118](https://github.com/malerba118)
