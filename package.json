@@ -38,8 +38,8 @@
     "lodash.throttle": "^4.1.1"
   },
   "peerDependencies": {
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.7.4",
